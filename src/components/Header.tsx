@@ -24,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, handleNavClick, scr
   ];
   
   const siteLogo = "/Warp.jpg"; // Define logo path
+  const [logoError, setLogoError] = React.useState(false);
 
   return (
     <header className="bg-deep-space-blue/90 backdrop-blur-md sticky top-0 z-50 shadow-2xl border-b border-shadow-slate/50">
@@ -40,24 +41,19 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, handleNavClick, scr
             }} 
             className="flex items-center group"
           >
-            <div className="relative h-10 w-10 mr-3 rounded-sm shadow-md group-hover:opacity-90 transition-opacity duration-200 overflow-hidden">
-              <Image 
-                src={siteLogo}
-                alt="Site Logo" 
-                layout="fill"
-                objectFit="cover"
-                onError={(e) => { 
-                  const target = e.target as HTMLImageElement;
-                  // Attempt to show fallback text if image fails
-                  const parent = target.parentElement;
-                  if (parent && parent.nextSibling && parent.nextSibling.nodeName === 'SPAN') {
-                    (parent.nextSibling as HTMLElement).style.display = 'flex';
-                  }
-                  target.style.display='none'; // Hide the broken image icon
-                }}
-              />
+            <div className="relative h-10 w-10 mr-3 rounded-sm shadow-md group-hover:opacity-90 transition-opacity duration-200 overflow-hidden flex items-center justify-center bg-cyber-teal">
+              {!logoError ? (
+                <Image 
+                  src={siteLogo}
+                  alt="Site Logo" 
+                  fill
+                  className="object-cover w-full h-full"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <span className="font-bold text-xl text-deep-space-blue">W</span>
+              )}
             </div>
-            <span style={{display: 'none'}} className="h-10 w-10 bg-cyber-teal text-deep-space-blue rounded-sm mr-3 items-center justify-center font-bold text-xl">W</span>
             
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-starlight-blue group-hover:text-cyber-teal tracking-tight transition-colors duration-200">
               UE <span className="text-cyber-teal group-hover:text-nebula-aqua transition-colors duration-200">FPS Systems</span>

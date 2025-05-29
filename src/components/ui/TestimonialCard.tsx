@@ -49,12 +49,11 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
           <Image 
             src={avatar || placeholderAvatar}
             alt={name} 
-            layout="fill" // Use fill and make parent relative with fixed dimensions
-            objectFit="cover" // Adjust as needed: cover, contain, etc.
+            fill 
+            className="object-cover w-full h-full" // Added w-full h-full
             onError={(e) => {
-              // Type assertion to satisfy TS, Next/Image onError provides SyntheticEvent<HTMLImageElement, Event>
               const target = e.target as HTMLImageElement;
-              if (target.src !== placeholderAvatar) { // Prevent infinite loop if placeholder also fails
+              if (target.src !== placeholderAvatar) { 
                 target.src = placeholderAvatar;
               }
             }}
