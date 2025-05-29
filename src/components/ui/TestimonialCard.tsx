@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image'; // Import next/image
+import Image from 'next/image';
 import { StarIcon } from '../icons';
 
 interface TestimonialCardProps {
@@ -8,66 +8,35 @@ interface TestimonialCardProps {
   stars: number;
   text: string;
   avatar?: string;
-  theme?: 'light' | 'dark';
+  // theme prop can be re-added later if needed based on styling pass
 }
 
-export const TestimonialCard: React.FC<TestimonialCardProps> = ({ 
-  name, 
-  role, 
-  stars, 
-  text, 
-  avatar, 
-  theme = 'dark' 
-}) => {
-  const isLightTheme = theme === 'light';
-
-  const cardClasses = isLightTheme 
-    ? "bg-white p-6 rounded-lg shadow-xl border border-gray-200/80 h-full flex flex-col"
-    : "bg-comet-grey p-6 rounded-lg shadow-xl backdrop-blur-sm border border-shadow-slate/50 h-full flex flex-col";
-  
-  const nameClasses = isLightTheme
-    ? "font-medium text-gray-900"
-    : "font-medium text-starlight-blue";
-
-  const roleClasses = isLightTheme
-    ? "text-xs text-sky-600"
-    : "text-xs text-cyber-teal";
-
-  const textClasses = isLightTheme
-    ? "text-gray-700 leading-relaxed italic text-sm flex-grow"
-    : "text-starlight-blue/90 leading-relaxed italic text-sm flex-grow";
-
-  const avatarPlaceholderBg = isLightTheme ? 'E0E7FF' : '0A192F';
-  const avatarPlaceholderText = isLightTheme ? '374151' : 'A8B2D1';
-  
-  const placeholderAvatar = `https://placehold.co/60x60/${avatarPlaceholderBg}/${avatarPlaceholderText}?text=${name.charAt(0)}`;
+export const TestimonialCard: React.FC<TestimonialCardProps> = ({ name, role, stars, text, avatar }) => {
+  const placeholderAvatar = `https://placehold.co/60x60/0A192F/A8B2D1?text=${name.charAt(0)}`;
+  const [avatarSrc, setAvatarSrc] = React.useState(avatar || placeholderAvatar);
 
   return (
-    <div className={cardClasses}>
+    <div className="bg-comet-grey p-6 rounded-lg shadow-xl backdrop-blur-sm border border-shadow-slate/50 h-full flex flex-col">
       <div className="flex items-center mb-4">
-        <div className={`relative w-14 h-14 rounded-full mr-4 border-2 ${isLightTheme ? 'border-sky-500' : 'border-cyber-teal'} overflow-hidden`}>
+        <div className="relative w-14 h-14 rounded-full mr-4 border-2 border-cyber-teal overflow-hidden">
           <Image 
-            src={avatar || placeholderAvatar}
+            src={avatarSrc}
             alt={name} 
-            fill 
-            className="object-cover w-full h-full" // Added w-full h-full
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (target.src !== placeholderAvatar) { 
-                target.src = placeholderAvatar;
-              }
-            }}
+            width={56}
+            height={56}
+            className="object-cover" 
+            onError={() => setAvatarSrc(placeholderAvatar)}
           />
         </div>
         <div>
-          <h4 className={nameClasses}>{name}</h4>
-          <p className={roleClasses}>{role}</p>
+          <h4 className="font-medium text-starlight-blue">{name}</h4>
+          <p className="text-xs text-cyber-teal">{role}</p>
         </div>
       </div>
       <div className="flex mb-3">
         {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < stars} />)}
       </div>
-      <p className={textClasses}>{`"${text}"`}</p>
+      <p className="text-starlight-blue/90 leading-relaxed italic text-sm flex-grow">{`"${text}"`}</p>
     </div>
   );
 };

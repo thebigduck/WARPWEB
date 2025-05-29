@@ -41,13 +41,14 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, handleNavClick, scr
             }} 
             className="flex items-center group"
           >
-            <div className="relative h-10 w-10 mr-3 rounded-sm shadow-md group-hover:opacity-90 transition-opacity duration-200 overflow-hidden flex items-center justify-center bg-cyber-teal">
+            <div className="h-10 w-10 mr-3 rounded-sm shadow-md group-hover:opacity-90 transition-opacity duration-200 flex items-center justify-center bg-cyber-teal overflow-hidden">
               {!logoError ? (
                 <Image 
                   src={siteLogo}
                   alt="Site Logo" 
-                  fill
-                  className="object-cover w-full h-full"
+                  width={40} // Explicit width
+                  height={40} // Explicit height
+                  className="object-cover" // Ensures image covers the 40x40 area if aspect ratio mismatches
                   onError={() => setLogoError(true)}
                 />
               ) : (

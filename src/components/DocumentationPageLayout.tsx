@@ -1,134 +1,181 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DocArticleMeta, DocumentationArticleProps } from '@/types';
+import { DocArticleMeta, DocumentationArticleProps, DocSection } from '@/types'; 
+import { ChevronDownIcon, ChevronUpIcon } from '@/components/icons';
+import { SectionTitle } from '@/components/ui'; 
+
+const HEADER_OFFSET = 80;
 
 interface DocumentationPageLayoutProps {
-  articles: DocArticleMeta[];
-  navStructure: Array<{ id: string; title: string; parentId: string; level: number }>;
+  articles: DocArticleMeta[]; 
+  navStructure: DocSection[]; 
 }
 
 const DocumentationPageLayout: React.FC<DocumentationPageLayoutProps> = ({ articles, navStructure }) => {
-  const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const router = useRouter();
+  const [activeDocId, setActiveDocId] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.substring(1);
+      if (hash && navStructure.some(s => s.id === hash)) return hash;
+    }
+    return navStructure.find(s => s.level === 1)?.id || '';
+  });
+  
+  const [expandedNavSections, setExpandedNavSections] = useState<Record<string, boolean>>({});
+  const mainContentRef = useRef<HTMLDivElement>(null);
+  const navLinkRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   useEffect(() => {
-    // Attempt to set active article from URL hash or default to the first article
-    const hash = window.location.hash.replace(/^#/, '');
-    if (hash && articles.some(article => article.id === hash || navStructure.some(nav => nav.id === hash))) {
-      // Find the top-level article ID for a section hash
-      const section = navStructure.find(nav => nav.id === hash);
-      const article = section ? articles.find(a => a.parentId === section.parentId || a.id === section.parentId || a.id === hash) : articles.find(a => a.id === hash);
-      setActiveArticleId(article ? article.id : (articles.length > 0 ? articles[0].id : null));
-      if (section) {
-        setExpandedSections(prev => ({ ...prev, [section.id]: true, [section.parentId]: true }));
-        // Ensure parent H1 is expanded if an H2 is targeted
-        const parentArticleMeta = articles.find(a => a.parentId === section.parentId || a.id === section.parentId);
-        if (parentArticleMeta) setExpandedSections(prev => ({ ...prev, [parentArticleMeta.id]: true}));
-      }
-    } else if (articles.length > 0) {
-      setActiveArticleId(articles[0].id);
-      setExpandedSections(prev => ({ ...prev, [articles[0].id]: true })); 
-    }
-  }, [articles, navStructure]);
+    const contentEl = mainContentRef.current;
+    if (!contentEl) return;
 
-  const handleNavClick = (id: string, isArticle: boolean) => {
-    if (isArticle) {
-      setActiveArticleId(id);
-      // Toggle expansion for H1 articles
-      setExpandedSections(prev => ({ ...prev, [id]: !prev[id] })); 
-    } else {
-        // For H2/H3 links, ensure the parent article is active and toggle the specific section
-        const section = navStructure.find(nav => nav.id === id);
-        const article = section ? articles.find(a => a.parentId === section.parentId || a.id === section.parentId) : null;
-        if (article) setActiveArticleId(article.id);
-        // Ensure H1 parent is expanded when H2 is clicked
-        if (section && section.parentId && section.level === 2) { 
-            setExpandedSections(prev => ({ ...prev, [section.parentId]: true, [id]: !prev[id]}));
-        } else {
-            setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }));
+    const handleScroll = () => {
+      let currentSectionId = '';
+      const scrollPosition = contentEl.scrollTop + HEADER_OFFSET + 40; 
+
+      for (const section of navStructure) {
+        const el = document.getElementById(section.id);
+        if (el && el.offsetTop <= scrollPosition) {
+          currentSectionId = section.id;
+        } else if (el && el.offsetTop > scrollPosition) {
+          break;
+        }
+      }
+      if (currentSectionId && activeDocId !== currentSectionId) {
+        setActiveDocId(currentSectionId);
+      }
+    };
+
+    contentEl.addEventListener('scroll', handleScroll);
+    handleScroll(); 
+    return () => contentEl.removeEventListener('scroll', handleScroll);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navStructure]); 
+
+  useEffect(() => {
+    if (activeDocId) {
+      const newExpanded: Record<string, boolean> = {};
+      let current = navStructure.find(s => s.id === activeDocId);
+      const parentsToExpand: string[] = [];
+      while(current) {
+        if(current.level <= 2) parentsToExpand.push(current.id);
+        const h1Parent = navStructure.find(s => s.parent === current.parent && s.level === 1);
+        current = navStructure.find(s => s.id === current.subSectionOf || (current.level > 1 && h1Parent && s.id === h1Parent.id));
+      }
+      parentsToExpand.forEach(id => newExpanded[id] = true);
+      setExpandedNavSections(prev => ({ ...prev, ...newExpanded }));
+    }
+  }, [activeDocId, navStructure]);
+
+  const handleNavLinkClick = (id: string, level: number, parentGroup: string) => {
+    const mainContentEl = mainContentRef.current;
+    const elementToScrollTo = document.getElementById(id);
+
+    if (mainContentEl && elementToScrollTo) {
+      const topPos = elementToScrollTo.offsetTop - HEADER_OFFSET;
+      mainContentEl.scrollTo({ top: topPos, behavior: 'smooth' });
+    }
+    router.replace(`${router.pathname}#${id}`, undefined, { shallow: true });
+    setActiveDocId(id);
+
+    if (level === 1) {
+        setExpandedNavSections(prev => ({...prev, [id]: !prev[id]}));
+    } else if (level === 2) {
+        const h1Parent = navStructure.find(s => s.parent === parentGroup && s.level === 1);
+        if (h1Parent) {
+            setExpandedNavSections(prev => ({...prev, [h1Parent.id]: true, [id]: !prev[id]}));
         }
     }
-    window.location.hash = id;
+  };
+  
+  const currentTopLevelParentGroup = navStructure.find(s => s.id === activeDocId)?.parent || navStructure.find(s => s.id === activeDocId && s.level ===1 )?.parent;
+  const activeArticleMeta = articles.find(a => a.parentId === currentTopLevelParentGroup);
+  const ArticleComponent = activeArticleMeta?.component;
+
+  const renderDocNavRecursive = (parentId: string, currentLevel: number) => {
+    const children = navStructure.filter(s => s.parent === parentId && s.level === currentLevel);
+    if (children.length === 0) return null;
+
+    return (
+      <ul className={`${currentLevel > 1 ? 'pl-3' : ''} space-y-1`}>
+        {children.map(section => (
+          <li key={section.id}>
+            <button
+              ref={el => navLinkRefs.current[section.id] = el}
+              onClick={() => handleNavLinkClick(section.id, section.level, section.parent || section.id)}
+              className={`block w-full text-left py-1 px-2 rounded transition-colors duration-150
+                ${activeDocId === section.id ? 'bg-cyber-teal text-deep-space-blue font-semibold' : 'text-starlight-blue hover:bg-comet-grey hover:text-nebula-aqua'}
+                ${section.level === 1 ? 'font-bold text-cyber-teal text-lg mt-3' : section.level === 2 ? 'text-sm font-medium' : 'text-xs pl-3'}`}
+            >
+              {section.title.replace(/\((?:v2|DS|LHS|AS|PDS)\)/g, '').replace(/^\d+\.\s*/, '').trim()}
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
   };
 
-  const toggleSectionExpansion = (sectionId: string) => {
-    setExpandedSections(prev => ({...prev, [sectionId]: !prev[sectionId]}));
-    window.location.hash = sectionId;
-  };
-
-  const getSectionIdForArticle = (articleParentId: string, baseId: string) => {
-    return `${articleParentId}-${baseId}`;
-  };
-
-  const activeArticle = articles.find(article => article.id === activeArticleId);
-  const ArticleComponent = activeArticle?.component;
-
-  // Group nav items by parentId for structured sidebar
-  const groupedNav = navStructure.reduce<Record<string, Array<typeof navStructure[0]>>>((acc, item) => {
-    const parentKey = item.parentId || item.id; // Group by parentId, or by item.id if it's a top-level item
-    if (!acc[parentKey]) {
-      acc[parentKey] = [];
-    }
-    if (item.level > 1) { // Only add sub-items to the arrays, top-level items are handled separately
-        acc[parentKey].push(item);
+  const articleExpandedSections = navStructure.reduce((acc, section) => {
+    if (section.parent === activeArticleMeta?.parentId) { 
+        acc[section.id] = !!expandedNavSections[section.id];
     }
     return acc;
-  }, {});
+  }, {} as Record<string, boolean>);
+
+  const toggleArticleSectionExpansion = (sectionId: string) => {
+    setExpandedNavSections(prev => ({...prev, [sectionId]: !prev[sectionId]}));
+  };
+
+  const getSectionIdForArticle = (articleParentIdFromProps: string, baseId: string) => {
+    return baseId; 
+  };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-deep-space-blue text-starlight-blue">
-      {/* Sidebar */}
-      <aside className="w-full md:w-72 lg:w-80 bg-shadow-slate p-6 md:sticky md:top-20 md:self-start md:max-h-[calc(100vh-80px)] overflow-y-auto scrollbar-thin scrollbar-thumb-comet-grey scrollbar-track-deep-space-blue border-r border-comet-grey/30">
-        <h2 className="text-xl font-semibold text-cyber-teal mb-6">Documentation</h2>
+    <div className="flex flex-col lg:flex-row py-12 sm:py-16 gap-x-8 gap-y-6 bg-deep-space-blue text-starlight-blue">
+      <aside className="w-full lg:w-72 xl:w-80 lg:sticky lg:top-24 self-start bg-comet-grey p-5 rounded-lg shadow-lg max-h-[calc(100vh-12rem)] overflow-y-auto border border-shadow-slate scrollbar-thin scrollbar-thumb-comet-grey scrollbar-track-deep-space-blue">
+        <h2 className="text-xl font-bold text-cyber-teal mb-4 border-b border-shadow-slate pb-2">Documentation Menu</h2>
         <nav>
-          <ul className="space-y-2">
-            {articles.map(article => (
-              <li key={article.id}>
-                <a
-                  href={`#${article.id}`}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(article.id, true); }}
-                  className={`block py-2 px-3 rounded-md transition-colors duration-150 font-medium 
-                    ${activeArticleId === article.id ? 'bg-cyber-teal text-deep-space-blue' : 'hover:bg-comet-grey/70 text-starlight-blue hover:text-nebula-aqua'}
-                    text-base leading-relaxed`} // H1 style
-                >
-                  {article.title}
-                </a>
-                {/* Render H2s if this H1 article is active/expanded */}
-                {expandedSections[article.id] && groupedNav[article.parentId] && (
-                    <ul className="pl-4 mt-1 space-y-1">
-                        {groupedNav[article.parentId].map(section => (
-                             <li key={section.id}>
-                                <a 
-                                    href={`#${section.id}`}
-                                    onClick={(e) => { e.preventDefault(); handleNavClick(section.id, false); }}
-                                    className={`block py-1.5 px-3 rounded-md transition-colors duration-150 text-sm
-                                        ${window.location.hash === `#${section.id}` ? 'text-nebula-aqua font-semibold' : 'text-starlight-blue/80 hover:text-nebula-aqua hover:bg-comet-grey/50'}
-                                        leading-relaxed`} // H2 style
-                                >
-                                    {section.title} {/* Assuming navStructure items have .title for H2s */}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+          {navStructure.filter(s => s.level === 1).map(topLevelSection => (
+            <div key={topLevelSection.id} className="mb-3">
+              <button
+                ref={el => navLinkRefs.current[topLevelSection.id] = el}
+                onClick={() => handleNavLinkClick(topLevelSection.id, 1, topLevelSection.parent || topLevelSection.id)}
+                className={`flex justify-between items-center w-full text-left py-1.5 px-2 rounded transition-colors duration-150 font-bold text-lg
+                    ${expandedNavSections[topLevelSection.id] || activeArticleMeta?.parentId === topLevelSection.parent 
+                        ? 'text-cyber-teal bg-deep-space-blue/30' 
+                        : 'text-cyber-teal hover:bg-comet-grey/70'}`}
+              >
+                <span>{topLevelSection.title.replace(/\s*\((?:v2|DS|LHS|AS|PDS)\)/g, '').trim()}</span>
+                {expandedNavSections[topLevelSection.id] ? <ChevronUpIcon className="w-5 h-5 text-cyber-teal/80"/> : <ChevronDownIcon className="w-5 h-5 text-cyber-teal/80"/>}
+              </button>
+              {expandedNavSections[topLevelSection.id] && renderDocNavRecursive(topLevelSection.parent, 2)}
+            </div>
+          ))}
         </nav>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-y-auto">
-        {ArticleComponent && activeArticle && (
+      <div ref={mainContentRef} className="w-full lg:flex-1 bg-comet-grey p-6 sm:p-10 rounded-lg shadow-2xl border border-shadow-slate text-starlight-blue leading-relaxed max-h-[calc(100vh-8rem)] lg:max-h-[calc(100vh-12rem)] overflow-y-auto scroll-pt-24 documentation-page-content">
+        <button 
+            onClick={() => router.push('/')} 
+            className="mb-10 bg-cyber-teal hover:bg-nebula-aqua text-deep-space-blue font-bold py-2 px-6 rounded-md shadow-md hover:shadow-cyber-teal/40 transition-all duration-300 flex items-center"
+        >
+            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd"></path></svg>
+            Back to Home
+        </button>
+        <SectionTitle className="mb-16 text-left !pb-6 !text-3xl sm:!text-4xl">Unreal Engine FPS Gameplay Systems</SectionTitle>
+        
+        {ArticleComponent && activeArticleMeta ? (
           <ArticleComponent 
-            parentId={activeArticle.parentId}
-            expandedSections={expandedSections} 
-            toggleExpansion={toggleSectionExpansion} 
+            parentId={activeArticleMeta.parentId} 
+            expandedSections={articleExpandedSections} 
+            toggleExpansion={toggleArticleSectionExpansion} 
             getSectionId={getSectionIdForArticle} 
           />
+        ) : (
+          <p>Select an article to view its documentation. If an article is selected and not showing, check console for errors.</p>
         )}
-        {!ArticleComponent && <p>Select an article to view its documentation.</p>}
-      </main>
+      </div>
     </div>
   );
 };

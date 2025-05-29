@@ -3,7 +3,7 @@ import { ChevronUpIcon, ChevronDownIcon } from '../icons';
 
 interface FAQItemProps {
   question: string;
-  answer: React.ReactNode; // Can be string or JSX for rich text answers
+  answer: string;
 }
 
 export const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
@@ -17,7 +17,7 @@ export const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
         <h3 className="text-lg font-medium text-starlight-blue">{question}</h3>
         {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
       </button>
-      {isOpen && <div className="mt-3 text-starlight-blue/80 leading-relaxed pr-6">{answer}</div>}
+      {isOpen && <p className="mt-3 text-starlight-blue/80 leading-relaxed pr-6">{answer}</p>}
     </div>
   );
 };
