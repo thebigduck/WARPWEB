@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useRouter } from 'next/router'; // Removed unused import
 import DocumentationPageLayout from '@/components/DocumentationPageLayout';
 
 // Import individual documentation article components
@@ -10,7 +9,7 @@ import ArmorSystemDoc from '@/components/documentation/ArmorSystemDoc';
 import DamageSystemDoc from '@/components/documentation/DamageSystemDoc';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DocArticleMeta, DocumentationArticleProps, DocSection } from '@/types'; 
+import { DocArticleMeta, DocumentationArticleProps, DocSection } from '@/types';
 
 export const docArticles: DocArticleMeta[] = [
   {
@@ -18,14 +17,14 @@ export const docArticles: DocArticleMeta[] = [
     title: 'Developer Integration Guide (v2)',
     component: DeveloperIntegrationGuide,
     parentId: 'dev-guide',
-    sections: [] 
+    sections: []
   },
   {
     id: 'pds-plugin-main',
     title: 'Projectile System (PDS) Plugin',
     component: ProjectileSystemDoc,
     parentId: 'pds-plugin',
-    sections: [] 
+    sections: []
   },
   {
     id: 'lhs-plugin-main',
@@ -53,9 +52,8 @@ export const docArticles: DocArticleMeta[] = [
 export const sideNavStructure: DocSection[] = docArticles.map(article => ({
     id: article.id,
     title: article.title,
-    // parentId: article.parentId, // DocSection uses 'parent'
-    parent: article.parentId, // Use 'parent' to match DocSection type if it's defined that way
-    level: 1 as 1, // Explicitly type level as 1
+    parent: article.parentId,
+    level: 1, // Corrected: Removed 'as 1'
     // subSectionOf will be undefined for these top-level nav items
 }));
 

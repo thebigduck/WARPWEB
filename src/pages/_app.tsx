@@ -45,7 +45,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         sectionRefs.current[id] = document.getElementById(id);
       });
     }
-  }, [currentPage, LANDING_PAGE_INTERNAL_SECTIONS]); // Added LANDING_PAGE_INTERNAL_SECTIONS
+  }, [currentPage]); // Added LANDING_PAGE_INTERNAL_SECTIONS
 
   const handleNavClick = (navItem: NavItem) => {
     if (navItem.isPageLink && navItem.id === 'documentation') {
