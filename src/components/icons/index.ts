@@ -1,6 +1,6 @@
-export { ArrowRightIcon } from './ArrowRightIcon';
-export { CheckCircleIcon } from './CheckCircleIcon';
-export { BookOpenIcon } from './BookOpenIcon';
-export { StarIcon } from './StarIcon';
-export { ChevronDownIcon } from './ChevronDownIcon';
-export { ChevronUpIcon } from './ChevronUpIcon';
+export * from './ArrowRightIcon';
+export * from './BookOpenIcon';
+export * from './CheckCircleIcon';
+export * from './ChevronDownIcon';
+export * from './ChevronUpIcon';
+export * from './StarIcon';

@@ -1,7 +1,8 @@
 // This will render the LandingPage component
-import LandingPage from '@/components/LandingPage'; // Assuming LandingPage is moved to components
+import { LandingPage } from '@/components/LandingPage'; // Assuming LandingPage is moved to components
 
 export default function HomePage() {
+  // @ts-expect-error Async Server Component
   return <LandingPage />;
 }
 

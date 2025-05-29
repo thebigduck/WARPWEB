@@ -60,7 +60,7 @@ const ProjectileSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, ex
                     <ListItem ordered><strong>Varied Round Types:</strong> <CodeBlock inline>FMJ</CodeBlock>, <CodeBlock inline>AP</CodeBlock>, <CodeBlock inline>HP</CodeBlock>, <CodeBlock inline>Incendiary</CodeBlock>, etc., via <CodeBlock inline>ERoundType</CodeBlock> (from DS). Round type governs penetration, damage, and special effects.</ListItem>
                     <ListItem ordered><strong>Data-Driven Archetypes:</strong> <CodeBlock inline>UProjectileArchetypeDataAsset</CodeBlock> defines all behavior: velocity, mass, caliber, round type, damage, and VFX/SFX.</ListItem>
                     <ListItem ordered><strong>Advanced Ballistics:</strong> Ricochet, Spall, Penetration, Fragmentation. Configured via <CodeBlock inline>FProjectileRicochetConfig</CodeBlock> and <CodeBlock inline>FProjectileSpallConfig</CodeBlock>.</ListItem>
-                    <ListItem ordered><strong>Damage & GameplayEffects:</strong> On impact, fills <CodeBlock inline>FDamageContext</CodeBlock> (from DS) and calls <CodeBlock inline>{"UDamageRouterComponent::ProcessDamageEvent()"}</CodeBlock>. Uses <CodeBlock inline>DirectDamageEffectClassToApply</CodeBlock> from the archetype.</ListItem>
+                    <ListItem ordered><strong>Damage & GameplayEffects:</strong> On impact, fills <CodeBlock inline>FDamageContext</CodeBlock> (from DS) and calls <CodeBlock inline>{&quot;UDamageRouterComponent::ProcessDamageEvent()&quot;}</CodeBlock>. Uses <CodeBlock inline>DirectDamageEffectClassToApply</CodeBlock> from the archetype.</ListItem>
                     <ListItem ordered><strong>Object Pooling:</strong> Supports reuse of <CodeBlock inline>ABaseProjectile</CodeBlock> actors to reduce GC and improve performance.</ListItem>
                 </ol>
             </div>
@@ -95,7 +95,7 @@ const ProjectileSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, ex
                         </tbody>
                     </table>
                 </div>
-                <p className="text-sm italic">Module Files: <CodeBlock inline>IProjectileSystemModule.h</CodeBlock> — public interface, <CodeBlock inline>ProjectileSystemModule.cpp</CodeBlock> — module startup/shutdown, <CodeBlock inline>ProjectileSystem.Build.cs</CodeBlock> — declares dependency on "DamageSystem"</p>
+                <p className="text-sm italic">Module Files: <CodeBlock inline>IProjectileSystemModule.h</CodeBlock> — public interface, <CodeBlock inline>ProjectileSystemModule.cpp</CodeBlock> — module startup/shutdown, <CodeBlock inline>ProjectileSystem.Build.cs</CodeBlock> — declares dependency on &quot;DamageSystem&quot;</p> {/* Escaped quote here */}
             </div>
         )}
       </section>
@@ -193,16 +193,16 @@ TargetActor->FindComponentByClass<UDamageRouterComponent>()->ProcessDamageEvent(
                     <ListItem ordered><strong>Hitscan Logic</strong>: On server, perform line trace, then populate and dispatch <CodeBlock inline>FDamageContext</CodeBlock> as above.</ListItem>
                     <ListItem ordered><strong>Build Dependencies</strong>: In <strong><CodeBlock inline>ProjectileSystem.Build.cs</CodeBlock></strong>, include:
                         <CodeBlock>{`PublicDependencyModuleNames.AddRange(new string[]{
-    "Core", "CoreUObject", "Engine",
-    "GameplayTags", "GameplayAbilities",
-    "DamageSystem"
+    &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;,
+    &quot;GameplayTags&quot;, &quot;GameplayAbilities&quot;,
+    &quot;DamageSystem&quot;
 });`}</CodeBlock>
                     </ListItem>
                     <ListItem ordered><strong>Include Paths</strong>: In your PDS headers:
-                        <CodeBlock>{`#include "DamageSystemTypes.h"     // for FDamageContext, ERoundType, EProjectileType
-#include "ItemSystemTypes.h"       // for ammo quality mappings`}</CodeBlock>
+                        <CodeBlock>{`#include &quot;DamageSystemTypes.h&quot;     // for FDamageContext, ERoundType, EProjectileType
+#include &quot;ItemSystemTypes.h&quot;       // for ammo quality mappings`}</CodeBlock>
                     </ListItem>
-                    <ListItem ordered><strong>Define Direct Damage GE</strong>: Ensure each archetype sets <CodeBlock inline>DirectDamageGameplayEffectClass</CodeBlock> to a valid <CodeBlock inline>UGameplayEffect</CodeBlock> that reads <CodeBlock inline>"Data.Damage"</CodeBlock> from the context.</ListItem>
+                    <ListItem ordered><strong>Define Direct Damage GE</strong>: Ensure each archetype sets <CodeBlock inline>DirectDamageGameplayEffectClass</CodeBlock> to a valid <CodeBlock inline>UGameplayEffect</CodeBlock> that reads <CodeBlock inline>&quot;Data.Damage&quot;</CodeBlock> from the context.</ListItem>
                 </ol>
             </div>
         )}
