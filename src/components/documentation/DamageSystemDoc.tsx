@@ -1,9 +1,10 @@
 import React from 'react';
-import { CodeBlock, ListItem, SubListItem, DocSubTitle, DocSubSubTitle, DocSubSubSubTitle } from '@/components/ui';
+import { CodeBlock, ListItem, SubListItem, DocSubTitle, DocSubSubTitle } from '@/components/ui'; // Removed DocSubSubSubTitle
 import { DocumentationArticleProps } from '@/types';
 
 const DamageSystemDoc: React.FC<DocumentationArticleProps> = ({ expandedSections, toggleExpansion }) => {
   const getSectionId = (baseId: string) => `ds-plugin-${baseId}`; // Helper to ensure unique IDs
+  const q = String.fromCharCode(34); // Double quote character
 
   return (
     <article className="space-y-8 doc-article">
@@ -47,7 +48,7 @@ const DamageSystemDoc: React.FC<DocumentationArticleProps> = ({ expandedSections
             <div className="pl-6 pt-3 space-y-3">
                  <ul className="list-none space-y-1 pl-0">
                     <ListItem><strong>Centralized Damage Data</strong>: <CodeBlock inline>FDamageContext</CodeBlock> encapsulates source, target, projectile data, armor results, health results, and outcome flags.</ListItem>
-                    <ListItem><strong>Ordered Processing</strong>: <CodeBlock inline>{"UDamageRouterComponent::ProcessDamageEvent()"}</CodeBlock> enforces a consistent flow across all subsystems.</ListItem>
+                    <ListItem><strong>Ordered Processing</strong>: <CodeBlock inline>{`${q}UDamageRouterComponent::ProcessDamageEvent()${q}`}</CodeBlock> enforces a consistent flow across all subsystems.</ListItem>
                     <ListItem><strong>Decoupling</strong>: PDS, AS, and LHS only depend on DS’s shared types and routing API—no direct inter-plugin dependencies.</ListItem>
                     <ListItem><strong>Shared Core Types</strong>:
                         <ul className="list-none mt-1 space-y-0.5 pl-4">
@@ -171,13 +172,13 @@ const DamageSystemDoc: React.FC<DocumentationArticleProps> = ({ expandedSections
         {expandedSections[getSectionId('setup-usage-sublink')] && (
             <div className="pl-6 pt-3 space-y-3">
                 <ul className="list-none space-y-1 pl-0">
-                    <ListItem><strong>Module Dependencies</strong>: In <strong><CodeBlock inline>LimbHealthSystem.Build.cs</CodeBlock></strong>, <strong><CodeBlock inline>ArmorSystem.Build.cs</CodeBlock></strong>, and <strong><CodeBlock inline>ProjectileSystem.Build.cs</CodeBlock></strong>, add <CodeBlock inline>"DamageSystem"</CodeBlock> to their <CodeBlock inline>PublicDependencyModuleNames</CodeBlock>. In each plugin’s <CodeBlock inline>.uplugin</CodeBlock>, list <CodeBlock inline>"DamageSystem"</CodeBlock> under <CodeBlock inline>"Plugins"</CodeBlock>.</ListItem>
+                    <ListItem><strong>Module Dependencies</strong>: In <strong><CodeBlock inline>LimbHealthSystem.Build.cs</CodeBlock></strong>, <strong><CodeBlock inline>ArmorSystem.Build.cs</CodeBlock></strong>, and <strong><CodeBlock inline>ProjectileSystem.Build.cs</CodeBlock></strong>, add <CodeBlock inline>{`${q}DamageSystem${q}`}</CodeBlock> to their <CodeBlock inline>PublicDependencyModuleNames</CodeBlock>. In each plugin’s <CodeBlock inline>.uplugin</CodeBlock>, list <CodeBlock inline>{`${q}DamageSystem${q}`}</CodeBlock> under <CodeBlock inline>{`${q}Plugins${q}`}</CodeBlock>.</ListItem>
                     <ListItem><strong>Attach Router</strong>: Add <CodeBlock inline>UDamageRouterComponent</CodeBlock> to any actor class that should receive routed damage.</ListItem>
                     <ListItem><strong>Populate & Dispatch</strong>: All damage-dealing code must populate <CodeBlock inline>FDamageContext</CodeBlock> (from <CodeBlock inline>DamageSystemTypes.h</CodeBlock>) and call <CodeBlock inline>ProcessDamageEvent()</CodeBlock> on the router.</ListItem>
                     <ListItem><strong>GameplayEffect Requirements</strong>: Effects referenced by <CodeBlock inline>Context.DirectDamageEffectClassToApply</CodeBlock> must implement an <CodeBlock inline>ExecutionCalculation</CodeBlock> that:
                         <ol className="list-decimal list-inside ml-4 mt-1 text-sm doc-ordered-list">
                             <li>Retrieves <CodeBlock inline>FMyGameGameplayEffectContext</CodeBlock>.</li>
-                            <li>Reads the SetByCaller <CodeBlock inline>"Data.Damage"</CodeBlock>.</li>
+                            <li>Reads the SetByCaller <CodeBlock inline>{`${q}Data.Damage${q}`}</CodeBlock>.</li>
                             <li>Applies damage to the correct limb attribute based on <CodeBlock inline>HitLimbTag</CodeBlock>.</li>
                         </ol>
                     </ListItem>

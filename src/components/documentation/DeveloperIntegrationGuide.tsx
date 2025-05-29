@@ -1,5 +1,5 @@
 import React from 'react';
-import { CodeBlock, ListItem, SubListItem, DocSubTitle, DocSubSubTitle, DocSubSubSubTitle } from '@/components/ui'; // Assuming UI components are in /ui
+import { ListItem, DocSubTitle, DocSubSubTitle, DocSubSubSubTitle } from '@/components/ui'; // Removed CodeBlock, SubListItem
 
 interface CollapsibleSectionProps {
   id: string;
@@ -44,7 +44,7 @@ const DeveloperIntegrationGuide: React.FC<{
           <DocSubSubTitle id="dev-guide-intro-ecosystem">1.2 Plugin Ecosystem Overview</DocSubSubTitle>
           <div className="overflow-x-auto bg-deep-space-blue/50 p-3 my-4 rounded-md shadow-inner border border-shadow-slate/60">
               <table className="min-w-full divide-y divide-shadow-slate/40 text-sm">
-                  {/* Table content as in previous versions */}
+                  {/* Table content as in previous versions - Will require CodeBlock and SubListItem when implemented */}
               </table>
           </div>
         </CollapsibleSection>
@@ -80,13 +80,3 @@ const DeveloperIntegrationGuide: React.FC<{
   };
   
   export default DeveloperIntegrationGuide;
-  
-  // --- File: src/components/ui/index.ts ---
-  // Barrel file for UI components for easier imports
-  /*
-  export * from './CodeBlock';
-  export * from './ListItem';
-  export * from './SubListItem';
-  // ... export other UI components (DocMainTitle, DocSubTitle etc.)
-  */
-  

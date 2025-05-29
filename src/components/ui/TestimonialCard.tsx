@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image'; // Import next/image
 import { StarIcon } from '../icons';
 
 interface TestimonialCardProps {
@@ -29,33 +30,43 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
     : "font-medium text-starlight-blue";
 
   const roleClasses = isLightTheme
-    ? "text-xs text-sky-600" // Using a blueish accent for role in light theme
+    ? "text-xs text-sky-600"
     : "text-xs text-cyber-teal";
 
   const textClasses = isLightTheme
     ? "text-gray-700 leading-relaxed italic text-sm flex-grow"
     : "text-starlight-blue/90 leading-relaxed italic text-sm flex-grow";
 
-  const avatarPlaceholderBg = isLightTheme ? 'E0E7FF' : '0A192F'; // Light blueish for light, dark for dark
-  const avatarPlaceholderText = isLightTheme ? '374151' : 'A8B2D1'; // Dark gray for light, light blue for dark
+  const avatarPlaceholderBg = isLightTheme ? 'E0E7FF' : '0A192F';
+  const avatarPlaceholderText = isLightTheme ? '374151' : 'A8B2D1';
+  
+  const placeholderAvatar = `https://placehold.co/60x60/${avatarPlaceholderBg}/${avatarPlaceholderText}?text=${name.charAt(0)}`;
 
   return (
     <div className={cardClasses}>
       <div className="flex items-center mb-4">
-        <img 
-          src={avatar || `https://placehold.co/60x60/${avatarPlaceholderBg}/${avatarPlaceholderText}?text=${name.charAt(0)}`}
-          alt={name} 
-          className={`w-14 h-14 rounded-full mr-4 border-2 ${isLightTheme ? 'border-sky-500' : 'border-cyber-teal'}`} 
-          onError={(e) => (e.target as HTMLImageElement).src = `https://placehold.co/60x60/${avatarPlaceholderBg}/${avatarPlaceholderText}?text=${name.charAt(0)}`}
-        />
+        <div className={`relative w-14 h-14 rounded-full mr-4 border-2 ${isLightTheme ? 'border-sky-500' : 'border-cyber-teal'} overflow-hidden`}>
+          <Image 
+            src={avatar || placeholderAvatar}
+            alt={name} 
+            layout="fill" // Use fill and make parent relative with fixed dimensions
+            objectFit="cover" // Adjust as needed: cover, contain, etc.
+            onError={(e) => {
+              // Type assertion to satisfy TS, Next/Image onError provides SyntheticEvent<HTMLImageElement, Event>
+              const target = e.target as HTMLImageElement;
+              if (target.src !== placeholderAvatar) { // Prevent infinite loop if placeholder also fails
+                target.src = placeholderAvatar;
+              }
+            }}
+          />
+        </div>
         <div>
           <h4 className={nameClasses}>{name}</h4>
           <p className={roleClasses}>{role}</p>
         </div>
       </div>
       <div className="flex mb-3">
-        {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < stars} />) // StarIcon itself should be theme-agnostic or adapt
-        }
+        {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < stars} />)}
       </div>
       <p className={textClasses}>{`"${text}"`}</p>
     </div>

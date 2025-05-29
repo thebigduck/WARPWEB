@@ -5,6 +5,7 @@ import ProjectileSystemDoc from '@/components/documentation/ProjectileSystemDoc'
 import LimbHealthSystemDoc from '@/components/documentation/LimbHealthSystemDoc';
 import ArmorSystemDoc from '@/components/documentation/ArmorSystemDoc';
 import DamageSystemDoc from '@/components/documentation/DamageSystemDoc';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DocumentationArticleProps, DocArticleMeta } from '@/types';
 
 // Define the structure for documentation sections, including IDs for linking

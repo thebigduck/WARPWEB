@@ -11,6 +11,7 @@ import { DocumentationArticleProps } from '@/types';
 
 const ArmorSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, expandedSections, toggleExpansion, getSectionId }) => {
   const sectionId = (baseId: string) => getSectionId ? getSectionId(parentId, baseId) : `${parentId}-${baseId}`;
+  const q = String.fromCharCode(34); // Double quote character
 
   return (
     <article className="space-y-10 doc-article">
@@ -89,7 +90,7 @@ const ArmorSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, expande
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-shadow-slate/40">
-                            <tr><td className="px-4 py-3 align-top"><CodeBlock inline>UArmorSystemComponent</CodeBlock></td><td className="px-4 py-3 align-top"><CodeBlock inline>UActorComponent</CodeBlock></td><td className="px-4 py-3 align-top">Manages equipped pieces, handles equip/unequip RPCs, processes <CodeBlock inline>{"ProcessDamageInteraction(FDamageContext&)"}</CodeBlock>.</td></tr>
+                            <tr><td className="px-4 py-3 align-top"><CodeBlock inline>UArmorSystemComponent</CodeBlock></td><td className="px-4 py-3 align-top"><CodeBlock inline>UActorComponent</CodeBlock></td><td className="px-4 py-3 align-top">Manages equipped pieces, handles equip/unequip RPCs, processes <CodeBlock inline>{`${q}ProcessDamageInteraction(FDamageContext&)${q}`}</CodeBlock>.</td></tr>
                             <tr><td className="px-4 py-3 align-top"><CodeBlock inline>FArmorPieceInstance</CodeBlock></td><td className="px-4 py-3 align-top">struct (ArmorSystemTypes.h)</td><td className="px-4 py-3 align-top">Runtime data: archetype reference, quality, current/max durability, socket name, mesh component pointer.</td></tr>
                             <tr><td className="px-4 py-3 align-top"><CodeBlock inline>FEquippedArmorSlotInfo</CodeBlock></td><td className="px-4 py-3 align-top">struct (ArmorSystemTypes.h)</td><td className="px-4 py-3 align-top">Helper struct: slot tag + <CodeBlock inline>FArmorPieceInstance</CodeBlock>, used in replication array.</td></tr>
                             <tr><td className="px-4 py-3 align-top"><CodeBlock inline>UArmorArchetypeDataAsset</CodeBlock></td><td className="px-4 py-3 align-top"><CodeBlock inline>UPrimaryDataAsset</CodeBlock></td><td className="px-4 py-3 align-top">Defines base stats (durability, thickness, weight), visuals, coverage tags, material, and quality mappings.</td></tr>
@@ -98,7 +99,7 @@ const ArmorSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, expande
                         </tbody>
                     </table>
                 </div>
-                 <p className="text-sm italic">Module Files: <CodeBlock inline>IArmorSystemModule.h</CodeBlock> — public module interface, <CodeBlock inline>ArmorSystemModule.cpp</CodeBlock> — module startup/shutdown, <CodeBlock inline>ArmorSystem.Build.cs</CodeBlock> — declares dependencies (includes "DamageSystem")</p>
+                 <p className="text-sm italic">Module Files: <CodeBlock inline>IArmorSystemModule.h</CodeBlock> — public module interface, <CodeBlock inline>ArmorSystemModule.cpp</CodeBlock> — module startup/shutdown, <CodeBlock inline>ArmorSystem.Build.cs</CodeBlock> — declares dependencies (includes {q}DamageSystem{q})</p>
             </div>
         )}
       </section>
@@ -184,11 +185,11 @@ UPROPERTY(VisibleAnywhere) UArmorSystemComponent* ArmorComponent;`}</CodeBlock>
                     <ListItem ordered><strong>Module Dependency</strong>
                         <p className="mt-1">In <strong><CodeBlock inline>ArmorSystem.Build.cs</CodeBlock></strong>:</p>
                         <CodeBlock>{`PublicDependencyModuleNames.AddRange(new string[]{
-    "Core", "CoreUObject", "Engine",
-    "GameplayTags", "GameplayAbilities",
-    "DamageSystem"
+    ${q}Core${q}, ${q}CoreUObject${q}, ${q}Engine${q},
+    ${q}GameplayTags${q}, ${q}GameplayAbilities${q},
+    ${q}DamageSystem${q}
 });`}</CodeBlock>
-                        <p className="mt-1">In <strong><CodeBlock inline>ArmorSystem.uplugin</CodeBlock></strong>, add <CodeBlock inline>"DamageSystem"</CodeBlock> under <CodeBlock inline>"Plugins"</CodeBlock>.</p>
+                        <p className="mt-1">In <strong><CodeBlock inline>ArmorSystem.uplugin</CodeBlock></strong>, add <CodeBlock inline>{`${q}DamageSystem${q}`}</CodeBlock> under <CodeBlock inline>{`${q}Plugins${q}`}</CodeBlock>.</p>
                     </ListItem>
                     <ListItem ordered><strong>Data Asset Creation</strong>
                         <ul className="list-none mt-1 space-y-0.5 pl-4">

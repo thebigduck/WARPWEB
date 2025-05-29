@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DocArticleMeta, DocumentationArticleProps } from '@/types';
 
 interface DocumentationPageLayoutProps {

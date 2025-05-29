@@ -10,9 +10,8 @@ import {
 import { DocumentationArticleProps } from '@/types';
 
 const LimbHealthSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, expandedSections, toggleExpansion, getSectionId }) => {
-  // Helper to generate unique IDs for sections within this document
-  // The parentId 'lhs-plugin' is defined in pages/documentation.tsx for this article's meta
-  const sectionId = (baseId: string) => getSectionId ? getSectionId(parentId, baseId) : `${parentId}-${baseId}`; // getSectionId should already incorporate parentId
+  const sectionId = (baseId: string) => getSectionId ? getSectionId(parentId, baseId) : `${parentId}-${baseId}`; 
+  const q = String.fromCharCode(34); // Double quote character
 
   return (
     <article className="space-y-8 doc-article">
@@ -82,7 +81,7 @@ const LimbHealthSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, ex
                             <tr><td className="px-4 py-3 align-top"><CodeBlock inline>UMedicalItemDataAsset</CodeBlock></td><td className="px-4 py-3 align-top"><CodeBlock inline>UPrimaryDataAsset</CodeBlock></td><td className="px-4 py-3 align-top">Describes medical consumables: healing effects, statuses to remove, application time, quality modifiers.</td></tr>
                             <tr>
                                 <td className="px-4 py-3 align-top"><CodeBlock inline>LimbSystemTypes.h</CodeBlock></td><td className="px-4 py-3 align-top">Header</td>
-                                <td className="px-4 py-3 align-top">Contains:
+                                <td className="px-4 py-3 align-top">
                                     <ul className="list-none mt-1 space-y-0.5 pl-0"> {/* Use list-none for table cell lists */}
                                         <SubListItem><CodeBlock inline>FLimbDefinition</CodeBlock> (static limb info)</SubListItem>
                                         <SubListItem><CodeBlock inline>FLimbRuntimeData</CodeBlock> (optional runtime tracking)</SubListItem>
@@ -152,8 +151,8 @@ const LimbHealthSystemDoc: React.FC<DocumentationArticleProps> = ({ parentId, ex
                 <DocSubSubTitle id={sectionId('integration-ds')}>5.1 Damage System (DS) Dependency</DocSubSubTitle>
                 <p className="font-medium text-nebula-aqua">Shared Types:</p>
                 <ul className="list-none space-y-1 pl-0">
-                    <ListItem>Include <CodeBlock inline>#include "ItemSystemTypes.h"</CodeBlock> and <CodeBlock inline>#include "DamageSystemTypes.h"</CodeBlock> from DS for <CodeBlock inline>EItemInstanceQuality</CodeBlock>, <CodeBlock inline>FStatModifier</CodeBlock>, <CodeBlock inline>ERoundType</CodeBlock>, etc.</ListItem>
-                    <ListItem>Include <CodeBlock inline>#include "MyGameGameplayEffectContext.h"</CodeBlock> (DS) in <CodeBlock inline>CharacterAttributeSet.cpp</CodeBlock> and <CodeBlock inline>LimbSystemComponent.cpp</CodeBlock> to access the <CodeBlock inline>FDamageContext*</CodeBlock> pointer.</ListItem>
+                    <ListItem>Include <CodeBlock inline>{`#include ${q}ItemSystemTypes.h${q}`}</CodeBlock> and <CodeBlock inline>{`#include ${q}DamageSystemTypes.h${q}`}</CodeBlock> from DS for <CodeBlock inline>EItemInstanceQuality</CodeBlock>, <CodeBlock inline>FStatModifier</CodeBlock>, <CodeBlock inline>ERoundType</CodeBlock>, etc.</ListItem>
+                    <ListItem>Include <CodeBlock inline>{`#include ${q}MyGameGameplayEffectContext.h${q}`}</CodeBlock> (DS) in <CodeBlock inline>CharacterAttributeSet.cpp</CodeBlock> and <CodeBlock inline>LimbSystemComponent.cpp</CodeBlock> to access the <CodeBlock inline>FDamageContext*</CodeBlock> pointer.</ListItem>
                 </ul>
                 <p className="font-medium text-nebula-aqua mt-3">Damage Routing:</p>
                  <ul className="list-none space-y-1 pl-0">
@@ -200,13 +199,13 @@ LimbSystemComponent->InitializeLimbSystem(LimbDefinitionsDataAsset->Definitions,
                         </ul>
                     </ListItem>
                     <ListItem ordered><strong>GameplayEffects & Tags</strong>
-                        <p className="mt-1">Define healing, status, and penalty GEs. Define tags in <CodeBlock inline>Config/DefaultGameplayTags.ini</CodeBlock>. Reference these in your data assets and abilities.</p>
+                        <p className="mt-1">Define healing, status, and penalty GEs. Define tags in <CodeBlock inline>{`Config/DefaultGameplayTags.ini`}</CodeBlock>. Reference these in your data assets and abilities.</p>
                     </ListItem>
                     <ListItem ordered><strong>Module Dependencies</strong>
-                        <p className="mt-1">In <strong>LimbHealthSystem.Build.cs</strong>, add <CodeBlock inline>"DamageSystem"</CodeBlock> under <CodeBlock inline>PublicDependencyModuleNames</CodeBlock>. In <CodeBlock inline>LimbHealthSystem.uplugin</CodeBlock>, list <CodeBlock inline>"DamageSystem"</CodeBlock> in the <CodeBlock inline>"Plugins"</CodeBlock> array.</p>
+                        <p className="mt-1">In <strong>LimbHealthSystem.Build.cs</strong>, add <CodeBlock inline>{`${q}DamageSystem${q}`}</CodeBlock> under <CodeBlock inline>PublicDependencyModuleNames</CodeBlock>. In <CodeBlock inline>LimbHealthSystem.uplugin</CodeBlock>, list <CodeBlock inline>{`${q}DamageSystem${q}`}</CodeBlock> in the <CodeBlock inline>{`${q}Plugins${q}`}</CodeBlock> array.</p>
                     </ListItem>
                     <ListItem ordered><strong>Include Paths</strong>
-                        <p className="mt-1">Ensure <CodeBlock inline>#include "ItemSystemTypes.h"</CodeBlock> and <CodeBlock inline>#include "MyGameGameplayEffectContext.h"</CodeBlock> resolve via the DS module’s <CodeBlock inline>Public/</CodeBlock> directory.</p>
+                        <p className="mt-1">Ensure <CodeBlock inline>{`#include ${q}ItemSystemTypes.h${q}`}</CodeBlock> and <CodeBlock inline>{`#include ${q}MyGameGameplayEffectContext.h${q}`}</CodeBlock> resolve via the DS module’s <CodeBlock inline>{`Public/`}</CodeBlock> directory.</p>
                     </ListItem>
                 </ol>
             </div>

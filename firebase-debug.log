@@ -95,3 +95,14 @@ You're about to initialize a Firebase project in this directory:
 [debug] [2025-05-29T05:53:10.672Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/warpweb [none]
 [debug] [2025-05-29T05:53:11.240Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/warpweb 200
 [debug] [2025-05-29T05:53:11.240Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/warpweb {"projectId":"warpweb","projectNumber":"1095854825858","displayName":"warpweb","name":"projects/warpweb","resources":{"hostingSite":"warpweb"},"state":"ACTIVE","etag":"1_3403724a-284a-464f-ba32-dd275fa86162"}
+[debug] [2025-05-29T06:15:39.597Z] Error: Command failed: npx --yes create-next-app@"12 - 15.0" -e hello-world out --use-npm --ts
+    at genericNodeError (node:internal/errors:984:15)
+    at wrappedFn (node:internal/errors:538:14)
+    at checkExecSyncError (node:child_process:891:11)
+    at execSync (node:child_process:963:15)
+    at Object.init (/nix/store/x1y0l2xj62jgmz6csprhhqzibvdggdpk-firebase-tools-14.3.1/lib/node_modules/firebase-tools/lib/frameworks/next/index.js:216:34)
+    at async doSetup (/nix/store/x1y0l2xj62jgmz6csprhhqzibvdggdpk-firebase-tools-14.3.1/lib/node_modules/firebase-tools/lib/init/features/hosting/index.js:108:13)
+    at async init (/nix/store/x1y0l2xj62jgmz6csprhhqzibvdggdpk-firebase-tools-14.3.1/lib/node_modules/firebase-tools/lib/init/index.js:41:9)
+    at async Command.initAction [as actionFn] (/nix/store/x1y0l2xj62jgmz6csprhhqzibvdggdpk-firebase-tools-14.3.1/lib/node_modules/firebase-tools/lib/commands/init.js:187:5)
+[error] 
+[error] Error: An unexpected error has occurred.
