@@ -1,4 +1,4 @@
-import React from 'react'; // Removed useState
+import React from 'react';
 import {
   Container, 
   Box, 
@@ -49,18 +49,18 @@ interface BenefitCardProps {
 const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, children }) => {
   const iconProps: Record<string, unknown> = {};
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+  // @ts-ignore 
   if (icon && icon.type && typeof icon.type !== 'string' && icon.type.muiName) {
     iconProps.sx = { fontSize: 32, color: '#74C69D', mb: 1.5 };
   }
 
   return (
   <Card 
-    className="bg-[#2D6A4F] p-6 shadow-xl hover:shadow-[#74C69D]/20 transition-all duration-300 transform hover:-translate-y-1 border border-[#1B4332]/50 flex flex-col items-center text-center h-full"
-    sx={{boxShadow: 'none'}}
+    className="p-6 shadow-xl hover:shadow-[#74C69D]/20 transition-all duration-300 transform hover:-translate-y-1 border border-[#1B4332]/50 flex flex-col items-center text-center h-full"
+    sx={{ backgroundColor: '#2D6A4F' }}
   >
-    <CardContent className="flex flex-col items-center text-center flex-grow">
-      {React.cloneElement(icon, iconProps)} {/* Adjusted icon styling */}
+    <CardContent className="flex flex-col items-center text-center flex-grow p-0">
+      {React.cloneElement(icon, iconProps)} 
       <Typography variant="h6" component="h3" className="text-xl font-medium text-[#D8F3DC] mb-2 mt-1">
         {title}
       </Typography>
@@ -81,10 +81,10 @@ interface TestimonialCardProps {
 }
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ name, role, stars, text, avatar }) => (
   <Card 
-    className="bg-[#2D6A4F] p-6 shadow-xl backdrop-blur-sm border border-[#1B4332]/50 h-full flex flex-col"
-    sx={{boxShadow: 'none'}}
+    className="p-6 shadow-xl backdrop-blur-sm border border-[#1B4332]/50 h-full flex flex-col hover:shadow-[#74C69D]/20 transition-all duration-300 transform hover:-translate-y-1"
+    sx={{ backgroundColor: '#2D6A4F' }}
   >
-    <CardContent className="flex flex-col flex-grow">
+    <CardContent className="flex flex-col flex-grow p-0">
       <Box className="flex items-center mb-4">
         <Avatar 
           src={avatar || `https://placehold.co/60x60/081C15/D8F3DC?text=${name.charAt(0)}`} 
@@ -102,7 +102,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ name, role, stars, te
         </Box>
       </Box>
       <Box className="flex mb-3">
-        {[...Array(5)].map((_, i) => <StarRateIcon key={i} className={`${i < stars ? 'text-yellow-400' : 'text-[#528265]'}`} />)} {/* Adjusted un-filled star color */}
+        {[...Array(5)].map((_, i) => <StarRateIcon key={i} className={`${i < stars ? 'text-yellow-400' : 'text-[#528265]'}`} />)}
       </Box>
       <Typography variant="body2" className="text-[#D8F3DC]/90 leading-relaxed italic text-sm flex-grow">
         &ldquo;{text}&rdquo;
@@ -118,7 +118,7 @@ interface FAQItemProps {
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   return (
     <Accordion 
-        className="border-b border-[#2D6A4F]/50 bg-transparent shadow-none text-[#D8F3DC]"
+        className="border-b border-[#2D6A4F]/50 shadow-none text-[#D8F3DC]"
         sx={{ 
             backgroundColor: 'transparent',
             boxShadow: 'none',
@@ -134,7 +134,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
         className="px-0 hover:bg-[#2D6A4F]/10"
         sx={{paddingLeft:0, paddingRight:0, minHeight: 'auto', '& .MuiAccordionSummary-content': { marginY: '12px' }}}
       >
-        <Typography component="h3" className="text-lg font-medium text-[#D8F3DC]">{question}</Typography> {/* Adjusted to not be h6 for FAQ */}
+        <Typography component="h3" className="text-lg font-medium text-[#D8F3DC]">{question}</Typography>
       </AccordionSummary>
       <AccordionDetails className="px-0 pb-4" sx={{paddingLeft:0, paddingRight:0}}>
         <Typography variant="body2" className="text-[#D8F3DC]/80 leading-relaxed pr-6">
@@ -219,7 +219,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ showModal, scrollToInternalSe
                 { title: "Centralized Core Types", text: "Shared enums/structs in the Damage System plugin simplify dependencies." }
             ].map(feature => (
                 <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 4' }} key={feature.title}>
-                    <Paper elevation={0} className="bg-[#2D6A4F] p-6 rounded-lg shadow-lg hover:shadow-[#95D5B2]/20 transition-all duration-300 transform hover:-translate-y-1 border border-[#1B4332]/70 h-full">
+                    <Paper 
+                        elevation={0} 
+                        className="p-6 rounded-lg shadow-lg hover:shadow-[#95D5B2]/20 transition-all duration-300 transform hover:-translate-y-1 border border-[#1B4332]/70 h-full"
+                        sx={{ backgroundColor: '#2D6A4F' }}
+                    >
                         <Typography variant="h6" component="h3" className="text-xl font-medium text-[#74C69D] mb-3">{feature.title}</Typography>
                         <Typography variant="body2" className="text-[#D8F3DC]/90 leading-relaxed text-sm">{feature.text}</Typography>
                     </Paper>
@@ -250,7 +254,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ showModal, scrollToInternalSe
             <Typography variant="body1" className="text-center text-[#D8F3DC]/80 max-w-3xl mx-auto mb-12 leading-relaxed">
             Our plugins are not just individual tools; they form a deeply interconnected ecosystem. This synergy ensures realistic and consistent gameplay mechanics across all aspects of combat, from the moment a projectile is fired to its ultimate impact and effect.
             </Typography>
-            <Paper elevation={0} className="overflow-x-auto bg-[#2D6A4F] p-6 rounded-lg shadow-2xl border border-[#1B4332]/70">
+            <Paper 
+                elevation={0} 
+                className="overflow-x-auto p-6 rounded-lg shadow-2xl border border-[#1B4332]/70"
+                sx={{ backgroundColor: '#2D6A4F' }}
+            >
             <table className="min-w-full divide-y divide-[#2D6A4F]/30">
                 <thead className="bg-[#081C15]/50">
                 <tr>
