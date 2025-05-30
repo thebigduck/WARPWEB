@@ -1,17 +1,23 @@
 import React from 'react';
-import { ChevronUpIcon, ChevronDownIcon } from '../icons'; // Assuming icons are in ../icons
+import ChevronUpIcon from '@/components/icons/ChevronUpIcon';
+import ChevronDownIcon from '@/components/icons/ChevronDownIcon';
 
 interface DocMainTitleProps {
-  id: string;
-  children: React.ReactNode;
-  onClick: () => void;
+  title: string;
   isExpanded: boolean;
+  onToggle: () => void;
+  onClick: () => void;
   className?: string;
+  id: string;
 }
 
-export const DocMainTitle: React.FC<DocMainTitleProps> = ({ id, children, onClick, isExpanded, className = "" }) => (
-  <button onClick={onClick} className={`w-full flex justify-between items-center text-left text-2xl sm:text-3xl font-bold mb-6 text-cyber-teal scroll-mt-24 py-2 hover:text-nebula-aqua transition-colors ${className}`}>
-    <h1 id={id} className="flex-grow font-['Chypre',_Inter,_sans-serif] font-bold">{children}</h1>
-    {isExpanded ? <ChevronUpIcon className="w-6 h-6 text-cyber-teal ml-2"/> : <ChevronDownIcon className="w-6 h-6 text-cyber-teal ml-2"/>}
-  </button>
+const DocMainTitle: React.FC<DocMainTitleProps> = ({ title, isExpanded, onToggle, onClick, className = "", id }) => (
+  <div id={id} className={`flex items-center justify-between py-4 cursor-pointer ${className}`} onClick={onClick}>
+    <h1 className="text-2xl font-bold text-white">{title}</h1>
+    <button onClick={(e) => { e.stopPropagation(); onToggle(); }} className="text-gray-400 hover:text-white">
+      {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+    </button>
+  </div>
 );
+
+export default DocMainTitle;

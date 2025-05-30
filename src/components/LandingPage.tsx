@@ -3,13 +3,13 @@ import {
     ArrowRightIcon, 
     CheckCircleIcon, 
     BookOpenIcon 
-} from './icons'; // Corrected: if in src/components, icons is a sibling folder
+} from '@/components/icons'; 
 import { 
     SectionTitle, 
     BenefitCard, 
     TestimonialCard, 
     FAQItem 
-} from './ui'; // Corrected: if in src/components, ui is a sibling folder
+} from '@/components/ui';
 
 interface LandingPageProps {
   scrollToInternalSection: (id: string) => void;
@@ -49,26 +49,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({ scrollToInternalSectio
 
       {/* Key Benefits Section - Dark Theme */}
       <section id="key-benefits" className="py-20 sm:py-28 scroll-mt-20 bg-deep-space-blue">
-        <SectionTitle className="text-cyber-teal border-b-cyber-teal/30">Why Our FPS Systems?</SectionTitle> 
+        <SectionTitle title="Why Our FPS Systems?" className="text-cyber-teal border-b-cyber-teal/30" /> 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <BenefitCard icon={<CheckCircleIcon />} title="Deep Immersion">
-            Advanced ballistics, limb-specific trauma, and material-based armor create visceral, believable combat that captivates players.
-          </BenefitCard>
-          <BenefitCard icon={<CheckCircleIcon />} title="Seamless Modularity">
-            Integrate and customize with ease. Our flexible architecture adapts to your unique vision and scales with your project.
-          </BenefitCard>
-          <BenefitCard icon={<CheckCircleIcon />} title="Accelerated Creation">
-            Save hundreds of development hours. Leverage our professionally engineered plugins to bypass common hurdles and focus on your game&apos;s unique features.
-          </BenefitCard>
-          <BenefitCard icon={<BookOpenIcon />} title="Professional Documentation">
-            Navigate development with ease using our robust, professionally created documentation, complete with examples and best practices.
-          </BenefitCard>
+          <BenefitCard 
+            IconComponent={CheckCircleIcon} 
+            title="Deep Immersion"
+            description="Advanced ballistics, limb-specific trauma, and material-based armor create visceral, believable combat that captivates players."
+          />
+          <BenefitCard 
+            IconComponent={CheckCircleIcon} 
+            title="Seamless Modularity"
+            description="Integrate and customize with ease. Our flexible architecture adapts to your unique vision and scales with your project."
+          />
+          <BenefitCard 
+            IconComponent={CheckCircleIcon} 
+            title="Accelerated Creation"
+            description="Save hundreds of development hours. Leverage our professionally engineered plugins to bypass common hurdles and focus on your game&apos;s unique features."
+          />
+          <BenefitCard 
+            IconComponent={BookOpenIcon} 
+            title="Professional Documentation"
+            description="Navigate development with ease using our robust, professionally created documentation, complete with examples and best practices."
+          />
         </div>
       </section>
 
-      {/* Features Section - Dark Theme (Reverted from Light) */}
+      {/* Features Section - Dark Theme */}
       <section id="features" className="py-20 sm:py-28 scroll-mt-20 bg-shadow-slate">
-        <SectionTitle className="text-cyber-teal border-b-cyber-teal/30">Core System Capabilities</SectionTitle>
+        <SectionTitle title="Core System Capabilities" className="text-cyber-teal border-b-cyber-teal/30" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { title: "Modular Design", text: "Each subsystem is its own plugin, enabling isolated development and reuse." },
@@ -80,7 +88,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ scrollToInternalSectio
             { title: "Item Quality & Variants", text: "Support for quality tiers on items and configurable ammunition variants." },
             { title: "Centralized Core Types", text: "Shared enums/structs in the Damage System plugin simplify dependencies." }
           ].map(feature => (
-            // Reverted to dark theme card styling
             <div key={feature.title} className="bg-comet-grey p-6 rounded-lg shadow-lg hover:shadow-nebula-aqua/20 transition-all duration-300 transform hover:-translate-y-1 border border-shadow-slate/70">
               <h3 className="text-xl font-medium text-cyber-teal mb-3">{feature.title}</h3>
               <p className="text-starlight-blue/90 leading-relaxed text-sm">{feature.text}</p>
@@ -89,20 +96,37 @@ export const LandingPage: React.FC<LandingPageProps> = ({ scrollToInternalSectio
         </div>
       </section>
 
-      {/* Testimonials Section - Dark Theme (Reverted from Light) */}
+      {/* Testimonials Section - Dark Theme */}
       <section id="testimonials" className="py-20 sm:py-28 scroll-mt-20 bg-deep-space-blue">
-        <SectionTitle className="text-cyber-teal border-b-cyber-teal/30">Developer Acclaim</SectionTitle>
+        <SectionTitle title="Developer Acclaim" className="text-cyber-teal border-b-cyber-teal/30" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* TestimonialCard will be reverted in its own file to remove theme prop */}
-          <TestimonialCard name="Rina K." role="Lead Systems Designer, AAA Studio" stars={5} text="The depth of the damage and armor simulation is astounding. These plugins formed the backbone of our combat and saved us countless hours." avatar="https://placehold.co/100x100/64FFDA/0A192F?text=RK"/>
-          <TestimonialCard name="Devon 'Spark' Lee" role="Indie FPS Creator" stars={5} text="As a solo dev, this toolkit is a lifesaver. Robust, well-documented, and the modularity lets me use exactly what I need. My game feels incredible!" avatar="https://placehold.co/100x100/7DF9FF/0A192F?text=DL"/>
-          <TestimonialCard name="Dr. Anya Sharma" role="Simulation Specialist, R&D" stars={4} text="Impressive realism in projectile physics and material interaction. Required some adaptation for our specific research needs, but the foundation is exceptionally strong." avatar="https://placehold.co/100x100/F97316/0A192F?text=AS"/>
+          <TestimonialCard 
+            author="Rina K." 
+            role="Lead Systems Designer, AAA Studio" 
+            rating={5} 
+            quote="The depth of the damage and armor simulation is astounding. These plugins formed the backbone of our combat and saved us countless hours." 
+            avatar="https://placehold.co/100x100/64FFDA/0A192F?text=RK"
+          />
+          <TestimonialCard 
+            author="Devon 'Spark' Lee" 
+            role="Indie FPS Creator" 
+            rating={5} 
+            quote="As a solo dev, this toolkit is a lifesaver. Robust, well-documented, and the modularity lets me use exactly what I need. My game feels incredible!" 
+            avatar="https://placehold.co/100x100/7DF9FF/0A192F?text=DL"
+          />
+          <TestimonialCard 
+            author="Dr. Anya Sharma" 
+            role="Simulation Specialist, R&D" 
+            rating={4} 
+            quote="Impressive realism in projectile physics and material interaction. Required some adaptation for our specific research needs, but the foundation is exceptionally strong." 
+            avatar="https://placehold.co/100x100/F97316/0A192F?text=AS"
+          />
         </div>
       </section>
 
       {/* Synergistic Systems Section - Dark Theme */}
       <section id="synergistic-systems" className="py-20 sm:py-28 scroll-mt-20 bg-shadow-slate">
-        <SectionTitle className="text-cyber-teal border-b-cyber-teal/30">Synergistic Systems: A Cohesive Combat Core</SectionTitle>
+        <SectionTitle title="Synergistic Systems: A Cohesive Combat Core" className="text-cyber-teal border-b-cyber-teal/30" />
         <p className="text-center text-starlight-blue/80 max-w-3xl mx-auto mb-12 leading-relaxed">
           Our plugins are not just individual tools; they form a deeply interconnected ecosystem. This synergy ensures realistic and consistent gameplay mechanics across all aspects of combat, from the moment a projectile is fired to its ultimate impact and effect.
         </p>
@@ -148,7 +172,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ scrollToInternalSectio
 
       {/* FAQ Section - Dark Theme */}
       <section id="faq" className="py-20 sm:py-28 scroll-mt-20 bg-deep-space-blue">
-        <SectionTitle className="text-cyber-teal border-b-cyber-teal/30">Frequently Asked Questions</SectionTitle>
+        <SectionTitle title="Frequently Asked Questions" className="text-cyber-teal border-b-cyber-teal/30" />
         <div className="max-w-3xl mx-auto">
           <FAQItem
             question="What version of Unreal Engine are these plugins compatible with?"

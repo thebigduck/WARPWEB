@@ -2,66 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Chypre';
-  src: url('/fonts/Chypre-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Chypre', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #081C15;
+  color: #D8F3DC;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #1B4332; }
+::-webkit-scrollbar-thumb { background: #74C69D; border-radius: 10px; border: 2px solid #1B4332; }
+::-webkit-scrollbar-thumb:hover { background: #95D5B2; }
+
+/* section[id] { scroll-margin-top: 80px; } */ 
+
+.doc-article ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+}
+.doc-article ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+.doc-article ul.list-none, .doc-article ol.list-none {
+    list-style-type: none;
+    padding-left: 0;
+}
+.doc-article ol > li::marker {
+    color: #74C69D;
+    font-weight: 500;
+}
+.doc-article ul > li, .doc-article ol > li {
+    margin-bottom: 0.65rem;
+}
+.doc-article ul ul > li, .doc-article ol ol > li {
+    margin-bottom: 0.4rem;
+}
+
+.doc-article table ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+ .doc-article table ul li {
+    padding-left: 0;
+}
+.doc-article table ul ul {
+     padding-left: 1rem;
+}
+.doc-article table .ListItem > svg, .doc-article table .SubListItem > svg {
+    margin-top: 0.125rem;
+}
+.doc-article table .ListItem > span, .doc-article table .SubListItem > span {
+    display: inline;
+}
+ .doc-article table code {
+    white-space: normal;
+}
+
 @font-face {
   font-family: 'Chypre';
   src: url('/fonts/Chypre-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-weight: normal; /* 400 */
 }
 @font-face {
   font-family: 'Chypre';
   src: url('/fonts/Chypre-Medium.otf') format('opentype');
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
 }
 @font-face {
   font-family: 'Chypre';
   src: url('/fonts/Chypre-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: bold; /* 700 */
 }
-
-body {
-  font-family: 'Chypre', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background-color: #0A192F !important; 
-  color: #A8B2D1; 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'Chypre';
+  src: url('/fonts/Chypre-Light.otf') format('opentype');
+  font-weight: 300;
 }
-html { scroll-behavior: smooth; }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #071323; }
-::-webkit-scrollbar-thumb { background: #64FFDA; border-radius: 10px; border: 2px solid #071323; }
-::-webkit-scrollbar-thumb:hover { background: #7DF9FF; }
-
-section[id] { scroll-margin-top: 80px; } 
-.documentation-page-content section[id], 
-.documentation-page-content h1[id], 
-.documentation-page-content h2[id], 
-.documentation-page-content h3[id], 
-.documentation-page-content h4[id] { 
-    scroll-margin-top: 100px; 
-}
-.doc-article ol.doc-ordered-list { list-style-type: decimal; padding-left: 1.75rem; }
-.doc-article ul.list-none, .doc-article ol.list-none { list-style-type: none; padding-left: 0; }
-.doc-article ol.doc-ordered-list > li::marker { color: #64FFDA; font-weight: 500; }
-.doc-article ul > li, .doc-article ol > li { margin-bottom: 0.65rem; }
-.doc-article ul ul > li, .doc-article ol ol > li { margin-bottom: 0.4rem; margin-left: 1rem; }
-.doc-article ul.list-none ul.list-none { padding-left: 1rem; margin-top: 0.25rem; }
-.doc-article table ul.list-none { padding-left: 0; margin-top: 0.25rem; }
-.doc-article table ul.list-none li { padding-left: 0; margin-bottom: 0.25rem; }
-.doc-article table .ListItem > svg, .doc-article table .SubListItem > svg { margin-top: 0.2rem; }
-.doc-article table .ListItem > span, .doc-article table .SubListItem > span { display: inline; }
-.doc-article table code.inline-code { font-size: 0.8rem; padding: 0.1em 0.3em; white-space: normal; word-break: break-word; }
-.doc-article table td { vertical-align: top; }
-.doc-title-button h1, .doc-title-button h2 { width: 100%; }

@@ -1,13 +1,19 @@
-// This will render the LandingPage component
-import { LandingPage } from '@/components/LandingPage'; // Assuming LandingPage is moved to components
+import { LandingPage } from '@/components/LandingPage';
 
-export default function HomePage() {
-  // @ts-expect-error Async Server Component
-  return <LandingPage />;
+// These props are passed by _app.tsx to the page component
+interface HomePageProps {
+  setCurrentPage: (page: string) => void;
+  scrollToInternalSection: (id: string) => void;
+  showModal: (title: string, message: string) => void;
+  // Add other props that _app.tsx might pass and LandingPage might need
 }
 
-// --- File: src/components/LandingPage.tsx ---
-// (Contains the previous LandingPage component logic: Hero, Benefits, Features, etc.)
-// ... (LandingPage component code from previous iteration, adapted with Next.js Link if needed for internal page links)
-// Make sure to import necessary components like SectionTitle, BenefitCard etc. from their new locations.
-// For brevity, I'm not repeating the entire LandingPage code here.
+export default function HomePage(props: HomePageProps) {
+  // LandingPage expects setCurrentPage, scrollToInternalSection, showModal
+  // These are passed down from _app.tsx through pageProps
+  return <LandingPage 
+            setCurrentPage={props.setCurrentPage} 
+            scrollToInternalSection={props.scrollToInternalSection} 
+            showModal={props.showModal} 
+         />;
+}

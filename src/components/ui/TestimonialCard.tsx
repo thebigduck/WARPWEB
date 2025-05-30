@@ -1,42 +1,40 @@
 import React from 'react';
-import Image from 'next/image';
-import { StarIcon } from '../icons';
+import StarIcon from '@/components/icons/StarIcon';
+import Image from 'next/image'; // Import next/image
 
 interface TestimonialCardProps {
-  name: string;
+  quote: string;
+  author: string;
   role: string;
-  stars: number;
-  text: string;
-  avatar?: string;
-  // theme prop can be re-added later if needed based on styling pass
+  rating: number;
+  avatar?: string; 
+  className?: string;
 }
 
-export const TestimonialCard: React.FC<TestimonialCardProps> = ({ name, role, stars, text, avatar }) => {
-  const placeholderAvatar = `https://placehold.co/60x60/0A192F/A8B2D1?text=${name.charAt(0)}`;
-  const [avatarSrc, setAvatarSrc] = React.useState(avatar || placeholderAvatar);
-
-  return (
-    <div className="bg-comet-grey p-6 rounded-lg shadow-xl backdrop-blur-sm border border-shadow-slate/50 h-full flex flex-col">
-      <div className="flex items-center mb-4">
-        <div className="relative w-14 h-14 rounded-full mr-4 border-2 border-cyber-teal overflow-hidden">
-          <Image 
-            src={avatarSrc}
-            alt={name} 
-            width={56}
-            height={56}
-            className="object-cover" 
-            onError={() => setAvatarSrc(placeholderAvatar)}
-          />
-        </div>
-        <div>
-          <h4 className="font-medium text-starlight-blue">{name}</h4>
-          <p className="text-xs text-cyber-teal">{role}</p>
-        </div>
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, role, rating, avatar, className = "" }) => (
+  <div className={`bg-gray-800 p-6 rounded-lg shadow-lg ${className}`}>
+    {avatar && (
+      <div className="flex justify-center mb-4">
+        <Image 
+            src={avatar} 
+            alt={`${author}'s avatar`} 
+            width={64} // Provide explicit width (64px for w-16)
+            height={64} // Provide explicit height (64px for h-16)
+            className="rounded-full object-cover" 
+        />
       </div>
-      <div className="flex mb-3">
-        {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < stars} />)}
-      </div>
-      <p className="text-starlight-blue/90 leading-relaxed italic text-sm flex-grow">{`"${text}"`}</p>
+    )}
+    <div className="flex mb-4 justify-center">
+      {[...Array(5)].map((_, i) => (
+        <StarIcon key={i} className={`h-5 w-5 ${i < rating ? 'text-yellow-400' : 'text-gray-600'}`} />
+      ))}
     </div>
-  );
-};
+    <p className="text-gray-300 italic mb-4 text-center">&ldquo;{quote}&rdquo;</p>
+    <div className="text-center">
+      <p className="text-white font-semibold">{author}</p>
+      <p className="text-gray-500 text-sm">{role}</p>
+    </div>
+  </div>
+);
+
+export default TestimonialCard;

@@ -1,18 +1,20 @@
 import React from 'react';
 
 interface BenefitCardProps {
-  icon: React.ReactNode;
   title: string;
-  children: React.ReactNode;
+  description: string;
+  IconComponent: React.ElementType;
+  className?: string;
 }
 
-export const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, children }) => (
-  <div className="bg-comet-grey p-6 rounded-lg shadow-xl hover:shadow-cyber-teal/20 transition-all duration-300 transform hover:-translate-y-1 border border-shadow-slate/50 flex flex-col items-center text-center h-full">
-    {/* Explicitly size the container for the icon if SVG classes are not taking effect */}
-    <div className="w-8 h-8 mb-3"> 
-      {icon}
+const BenefitCard: React.FC<BenefitCardProps> = ({ title, description, IconComponent, className = "" }) => (
+  <div className={`bg-gray-800 p-6 rounded-lg shadow-lg text-center ${className}`}>
+    <div className="flex justify-center items-center mb-4">
+      <IconComponent className="h-12 w-12 text-purple-400" />
     </div>
-    <h3 className="text-xl font-medium text-starlight-blue mb-2 mt-1">{title}</h3>
-    <p className="text-starlight-blue/80 leading-relaxed text-sm flex-grow">{children}</p>
+    <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
+    <p className="text-gray-400">{description}</p>
   </div>
 );
+
+export default BenefitCard;

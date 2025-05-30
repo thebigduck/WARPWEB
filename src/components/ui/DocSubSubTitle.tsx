@@ -1,13 +1,16 @@
 import React from 'react';
 
 interface DocSubSubTitleProps {
-  id: string;
-  children: React.ReactNode;
+  title: string;
+  onClick: () => void;
   className?: string;
+  id: string;
 }
 
-export const DocSubSubTitle: React.FC<DocSubSubTitleProps> = ({ id, children, className = "" }) => (
-  <h3 id={id} className={`text-lg sm:text-xl font-medium mb-4 mt-8 text-nebula-aqua scroll-mt-24 ${className} font-['Chypre',_Inter,_sans-serif]`}>
-    {children}
-  </h3>
+const DocSubSubTitle: React.FC<DocSubSubTitleProps> = ({ title, onClick, className = "", id }) => (
+  <div id={id} className={`py-2 cursor-pointer ml-8 ${className}`} onClick={onClick}>
+    <h3 className="text-lg font-medium text-gray-300">{title}</h3>
+  </div>
 );
+
+export default DocSubSubTitle;
