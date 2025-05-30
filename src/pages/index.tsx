@@ -1,4 +1,4 @@
-import { LandingPage } from '@/components/LandingPage';
+import LandingPage from '@/components/LandingPage'; // Changed to default import
 
 // These props are passed by _app.tsx to the page component
 interface HomePageProps {

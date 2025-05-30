@@ -295,8 +295,7 @@ export const DocumentationPage: React.FC<DocumentationPageProps> = ({ setCurrent
 
   return (
     <Grid container spacing={3} sx={{ py: {xs:2, md:3} }}>
-      {/* @ts-expect-error MUI Grid type issue */}
-      <Grid item xs={12} md={3}>
+      <Grid gridColumn={{ xs: 'span 12', md: 'span 3' }}>
         <Paper 
             elevation={2} 
             className="lg:sticky lg:top-24 bg-[#2D6A4F] border border-[#1B4332]"
@@ -318,8 +317,7 @@ export const DocumentationPage: React.FC<DocumentationPageProps> = ({ setCurrent
           </List>
         </Paper>
       </Grid>
-      {/* @ts-expect-error MUI Grid type issue */}
-      <Grid item xs={12} md={9}>
+      <Grid gridColumn={{ xs: 'span 12', md: 'span 9' }}>
         <Paper 
             elevation={2} 
             ref={mainContentRef} 

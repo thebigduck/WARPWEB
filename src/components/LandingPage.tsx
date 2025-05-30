@@ -181,26 +181,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ showModal, scrollToInternalSe
       <Container maxWidth="lg" component="section" id="key-benefits" className="py-20 sm:py-28 scroll-mt-20 bg-[#081C15]">
         <SectionTitle>Why Our FPS Systems?</SectionTitle>
         <Grid container spacing={4}>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 3' }}>
             <BenefitCard icon={<CheckCircleOutlineIcon />} title="Deep Immersion">
               Advanced ballistics, limb-specific trauma, and material-based armor create visceral, believable combat that captivates players.
             </BenefitCard>
           </Grid>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 3' }}>
             <BenefitCard icon={<CheckCircleOutlineIcon />} title="Seamless Modularity">
               Integrate and customize with ease. Our flexible architecture adapts to your unique vision and scales with your project.
             </BenefitCard>
           </Grid>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 3' }}>
             <BenefitCard icon={<CheckCircleOutlineIcon />} title="Accelerated Creation">
               Save hundreds of development hours. Leverage our professionally engineered plugins to bypass common hurdles and focus on your game&apos;s unique features.
             </BenefitCard>
           </Grid>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 3' }}>
             <BenefitCard icon={<MenuBookIcon />} title="Professional Documentation">
               Navigate development with ease using our robust, professionally created documentation, complete with examples and best practices.
             </BenefitCard>
@@ -222,8 +218,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ showModal, scrollToInternalSe
                 { title: "Item Quality & Variants", text: "Support for quality tiers on items and configurable ammunition variants." },
                 { title: "Centralized Core Types", text: "Shared enums/structs in the Damage System plugin simplify dependencies." }
             ].map(feature => (
-                // @ts-expect-error MUI Grid type issue
-                <Grid item xs={12} sm={6} md={4} key={feature.title}>
+                <Grid gridColumn={{ xs: 'span 12', sm: 'span 6', md: 'span 4' }} key={feature.title}>
                     <Paper elevation={0} className="bg-[#2D6A4F] p-6 rounded-lg shadow-lg hover:shadow-[#95D5B2]/20 transition-all duration-300 transform hover:-translate-y-1 border border-[#1B4332]/70 h-full">
                         <Typography variant="h6" component="h3" className="text-xl font-medium text-[#74C69D] mb-3">{feature.title}</Typography>
                         <Typography variant="body2" className="text-[#D8F3DC]/90 leading-relaxed text-sm">{feature.text}</Typography>
@@ -237,16 +232,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ showModal, scrollToInternalSe
       <Container maxWidth="lg" component="section" id="testimonials" className="py-20 sm:py-28 scroll-mt-20 bg-[#081C15]">
         <SectionTitle>Developer Acclaim</SectionTitle>
         <Grid container spacing={4}>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} md={4}>
+          <Grid gridColumn={{ xs: 'span 12', md: 'span 4' }}>
             <TestimonialCard name="Rina K." role="Lead Systems Designer, AAA Studio" stars={5} text="The depth of the damage and armor simulation is astounding. These plugins formed the backbone of our combat and saved us countless hours." avatar="https://placehold.co/100x100/74C69D/081C15?text=RK"/>
           </Grid>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} md={4}>
+          <Grid gridColumn={{ xs: 'span 12', md: 'span 4' }}>
             <TestimonialCard name="Devon 'Spark' Lee" role="Indie FPS Creator" stars={5} text="As a solo dev, this toolkit is a lifesaver. Robust, well-documented, and the modularity lets me use exactly what I need. My game feels incredible!" avatar="https://placehold.co/100x100/95D5B2/081C15?text=DL"/>
           </Grid>
-          {/* @ts-expect-error MUI Grid type issue */}
-          <Grid item xs={12} md={4}>
+          <Grid gridColumn={{ xs: 'span 12', md: 'span 4' }}>
             <TestimonialCard name="Dr. Anya Sharma" role="Simulation Specialist, R&D" stars={4} text="Impressive realism in projectile physics and material interaction. Required some adaptation for our specific research needs, but the foundation is exceptionally strong." avatar="https://placehold.co/100x100/B7E4C7/081C15?text=AS"/>
           </Grid>
         </Grid>
