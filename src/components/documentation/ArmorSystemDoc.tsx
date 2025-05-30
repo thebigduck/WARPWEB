@@ -146,7 +146,7 @@ const ArmorSystemDocContent: React.FC<DocumentationArticleProps> = ({ parentId, 
         isExpanded={!!expandedSections[sectionId('integration-points-link')]}
         onClick={() => toggleExpansion(sectionId('integration-points-link'))}
       >
-        <DocSubSubTitle id={sectionId('integration-ds')} title="5.1 Damage System (DS)"/>
+        <DocSubSubTitle id={sectionId('integration-ds')}>5.1 Damage System (DS)</DocSubSubTitle>
         <p className="font-medium text-nebula-aqua">Shared Types:</p>
         <ul className="list-none space-y-1 pl-0">
             <ListItem><CodeBlock inline>ItemSystemTypes.h</CodeBlock> for <CodeBlock inline>EItemInstanceQuality</CodeBlock>, <CodeBlock inline>FStatModifier</CodeBlock>, etc.</ListItem>
@@ -158,10 +158,10 @@ const ArmorSystemDocContent: React.FC<DocumentationArticleProps> = ({ parentId, 
         <CodeBlock language="cpp">{`ArmorComponent->ProcessDamageInteraction(FDamageContext& Context, FGameplayTag HitLimbTag, FName HitBoneName);`}</CodeBlock>
         <p>AS updates <CodeBlock inline>Context.CurrentDamageToApply</CodeBlock>, <CodeBlock inline>Context.bArmorWasHit</CodeBlock>, <CodeBlock inline>Context.bArmorPenetrated</CodeBlock>, <CodeBlock inline>Context.DamageAbsorbedByArmor</CodeBlock>, etc.</p>
         
-        <DocSubSubTitle id={sectionId('integration-lhs')} title="5.2 Limb Health System (LHS)"/>
+        <DocSubSubTitle id={sectionId('integration-lhs')}>5.2 Limb Health System (LHS)</DocSubSubTitle>
         <p><CodeBlock inline>CoverageTags</CodeBlock> in <CodeBlock inline>UArmorArchetypeDataAsset</CodeBlock> must match LHS limb tags (e.g., <CodeBlock inline>Tag.Limb.Chest</CodeBlock>) so that AS correctly identifies which limb a given hit affects.</p>
         
-        <DocSubSubTitle id={sectionId('integration-pds')} title="5.3 Projectile System (PDS)"/> 
+        <DocSubSubTitle id={sectionId('integration-pds')}>5.3 Projectile System (PDS)</DocSubSubTitle> 
         <p><CodeBlock inline>FDamageContext</CodeBlock> fields populated by PDS (mass, caliber, round type, behavior type) feed into AS’s mitigation calculations using material factors.</p>
       </CollapsibleSection>
 
@@ -225,24 +225,6 @@ UPROPERTY(VisibleAnywhere) UArmorSystemComponent* ArmorComponent;`}</CodeBlock>
       </CollapsibleSection>
 
     </article>
-  );
-};
-
-// Define CollapsibleSection here as it's used internally by this specific doc component structure
-interface CollapsibleSectionProps {
-  id: string; 
-  title: string;
-  isExpanded: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}
-
-const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ id, title, isExpanded, onClick, children }) => {
-  return (
-    <section id={id} className="mb-8 scroll-mt-24">
-      <DocSubTitle id={`${id}-header`} onClick={onClick} onToggle={onClick} isExpanded={isExpanded}>{title}</DocSubTitle>
-      {isExpanded && <div className={`pt-3 pl-6 space-y-4`}>{children}</div>}
-    </section>
   );
 };
 

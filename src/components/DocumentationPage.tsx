@@ -14,7 +14,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { DocMainTitle } from '@/components/ui/DocComponents'; 
+import { StaticDocMainTitle } from '@/components/ui/DocComponents'; 
 
 import DeveloperIntegrationGuideContent from '@/components/documentation/DeveloperIntegrationGuide';
 import ProjectileSystemDocContent from '@/components/documentation/ProjectileSystemDoc';
@@ -295,6 +295,7 @@ export const DocumentationPage: React.FC<DocumentationPageProps> = ({ setCurrent
 
   return (
     <Grid container spacing={3} sx={{ py: {xs:2, md:3} }}>
+      {/* @ts-expect-error MUI Grid type issue */}
       <Grid item xs={12} md={3}>
         <Paper 
             elevation={2} 
@@ -317,6 +318,7 @@ export const DocumentationPage: React.FC<DocumentationPageProps> = ({ setCurrent
           </List>
         </Paper>
       </Grid>
+      {/* @ts-expect-error MUI Grid type issue */}
       <Grid item xs={12} md={9}>
         <Paper 
             elevation={2} 
@@ -324,9 +326,9 @@ export const DocumentationPage: React.FC<DocumentationPageProps> = ({ setCurrent
             className="bg-[#2D6A4F] border border-[#1B4332] text-[#D8F3DC] leading-relaxed documentation-page-content"
             sx={{ p: {xs:2, sm:3, md:4}, maxHeight: {md: 'calc(100vh - 8rem)'}, overflowY: 'auto', scrollPaddingTop: `${headerOffset + 20}px`}}
         >
-          <DocMainTitle id="doc-main-page-title" className="mb-6 !text-3xl sm:!text-4xl">
+          <StaticDocMainTitle id="doc-main-page-title" className="mb-6 !text-3xl sm:!text-4xl">
              {DOC_SECTIONS_DATA.find(s => s.id === currentArticleParentId)?.title || "Documentation Topics"}
-          </DocMainTitle>
+          </StaticDocMainTitle>
           
           {ActiveArticleComponent && currentArticleParentId ? 
             <ActiveArticleComponent 

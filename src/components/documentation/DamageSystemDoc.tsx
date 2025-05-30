@@ -167,7 +167,7 @@ const DamageSystemDocContent: React.FC<DocumentationArticleProps> = ({ parentId,
         isExpanded={!!expandedSections[sectionId('integration-points-link')]}
         onClick={() => toggleExpansion(sectionId('integration-points-link'))}
       >
-        <DocSubSubTitle id={sectionId('integration-provider')} title="5.1 Provider of Core Types" />
+        <DocSubSubTitle id={sectionId('integration-provider')}>5.1 Provider of Core Types</DocSubSubTitle>
         <p><strong>LHS</strong>, <strong>AS</strong>, and <strong>PDS</strong> add DS’s plugin as a dependency to consume:</p>
         <ul className="list-none space-y-1 pl-4">
             <SubListItem><CodeBlock inline>FDamageContext</CodeBlock>, <CodeBlock inline>ERoundType</CodeBlock>, <CodeBlock inline>EProjectileType</CodeBlock></SubListItem>
@@ -175,7 +175,7 @@ const DamageSystemDocContent: React.FC<DocumentationArticleProps> = ({ parentId,
             <SubListItem><CodeBlock inline>FMyGameGameplayEffectContext</CodeBlock></SubListItem>
         </ul>
 
-        <DocSubSubTitle id={sectionId('integration-orchestrator')} title="5.2 Orchestrator of Damage Flow" />
+        <DocSubSubTitle id={sectionId('integration-orchestrator')}>5.2 Orchestrator of Damage Flow</DocSubSubTitle>
         <p><strong>Damage Sources</strong> (PDS, melee, hazards) populate <CodeBlock inline>FDamageContext</CodeBlock> and call:</p>
         <CodeBlock language="cpp">{`Target->FindComponentByClass<UDamageRouterComponent>()->ProcessDamageEvent(Context);`}</CodeBlock>
         <p><strong>Armor Mitigation</strong>:</p>
@@ -187,7 +187,7 @@ const DamageSystemDocContent: React.FC<DocumentationArticleProps> = ({ parentId,
         <CodeBlock language="cpp">{`UDamageRouterComponent::BroadcastPostDamageOutcomes(Context);
 // Triggers GameplayCues based on flags in Context`}</CodeBlock>
 
-        <DocSubSubTitle id={sectionId('integration-gameplaycue')} title="5.3 GameplayCue System" />
+        <DocSubSubTitle id={sectionId('integration-gameplaycue')}>5.3 GameplayCue System</DocSubSubTitle>
         <p>Uses final state in <CodeBlock inline>FDamageContext</CodeBlock> to emit cues (e.g., <CodeBlock inline>Damage.Hit</CodeBlock>, <CodeBlock inline>Damage.ArmorPenetrated</CodeBlock>, <CodeBlock inline>Damage.Killed</CodeBlock>).</p>
       </CollapsibleSection>
 

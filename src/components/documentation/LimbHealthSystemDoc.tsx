@@ -146,7 +146,7 @@ const LimbHealthSystemDocContent: React.FC<DocumentationArticleProps> = ({ paren
         isExpanded={!!expandedSections[sectionId('integration-points-link')]}
         onClick={() => toggleExpansion(sectionId('integration-points-link'))}
       >
-        <DocSubSubTitle id={sectionId('integration-ds')} title="5.1 Damage System (DS) Dependency"/>
+        <DocSubSubTitle id={sectionId('integration-ds')}>5.1 Damage System (DS) Dependency</DocSubSubTitle>
         <p className="font-medium text-nebula-aqua">Shared Types:</p>
         <ul className="list-none space-y-1 pl-0">
             <ListItem>Include <CodeBlock inline>{`#include "ItemSystemTypes.h"`}</CodeBlock> and <CodeBlock inline>{`#include "DamageSystemTypes.h"`}</CodeBlock> from <strong>DS</strong> for <CodeBlock inline>EItemInstanceQuality</CodeBlock>, <CodeBlock inline>FStatModifier</CodeBlock>, <CodeBlock inline>ERoundType</CodeBlock>, etc.</ListItem>
@@ -157,7 +157,7 @@ const LimbHealthSystemDocContent: React.FC<DocumentationArticleProps> = ({ paren
             <ListItem><CodeBlock inline>UDamageRouterComponent</CodeBlock> (DS) applies <CodeBlock inline>GameplayEffect</CodeBlock> specs to the LHS’s <CodeBlock inline>UAbilitySystemComponent</CodeBlock>.</ListItem>
             <ListItem>In <CodeBlock inline>UCharacterAttributeSet::PostGameplayEffectExecute</CodeBlock>, cast the incoming <CodeBlock inline>FGameplayEffectContext</CodeBlock> to <CodeBlock inline>FMyGameGameplayEffectContext</CodeBlock> to update <CodeBlock inline>DamageContextBeingProcessed</CodeBlock> flags (<CodeBlock inline>bTargetKilled</CodeBlock>, <CodeBlock inline>ResultingAppliedStatusEffectTags</CodeBlock>).</ListItem>
         </ul>
-        <DocSubSubTitle id={sectionId('integration-gas')} title="5.2 Gameplay Ability System (GAS)"/>
+        <DocSubSubTitle id={sectionId('integration-gas')}>5.2 Gameplay Ability System (GAS)</DocSubSubTitle>
         <ul className="list-none space-y-1 pl-0">
             <ListItem><strong>Attributes:</strong> Health and stamina attributes live in <CodeBlock inline>UCharacterAttributeSet</CodeBlock>.</ListItem>
             <ListItem><strong>Effects:</strong> Damage, healing, and status changes are applied via <CodeBlock inline>UGameplayEffect</CodeBlock> assets defined in data tables or Blueprints.</ListItem>

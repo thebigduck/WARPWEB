@@ -156,7 +156,7 @@ const ProjectileSystemDocContent: React.FC<DocumentationArticleProps> = ({ paren
         isExpanded={!!expandedSections[sectionId('integration-points-link')]}
         onClick={() => toggleExpansion(sectionId('integration-points-link'))}
       >
-        <DocSubSubTitle id={sectionId('integration-ds')} title="5.1 Damage System (DS)"/>
+        <DocSubSubTitle id={sectionId('integration-ds')}>5.1 Damage System (DS)</DocSubSubTitle>
         <ul className="list-none space-y-1 pl-0">
             <ListItem><strong>Dependencies</strong>:
                 <ul className="list-none mt-1 space-y-0.5 pl-4">
@@ -183,13 +183,13 @@ TargetActor->FindComponentByClass<UDamageRouterComponent>()->ProcessDamageEvent(
             </ListItem>
         </ul>
         
-        <DocSubSubTitle id={sectionId('integration-as')} title="5.2 Armor System (AS)"/>
+        <DocSubSubTitle id={sectionId('integration-as')}>5.2 Armor System (AS)</DocSubSubTitle>
         <p>Receives the same <CodeBlock inline>FDamageContext</CodeBlock> for mitigation in <CodeBlock inline>ProcessDamageInteraction()</CodeBlock>.</p>
         
-        <DocSubSubTitle id={sectionId('integration-lhs')} title="5.3 Limb Health System (LHS)"/>
+        <DocSubSubTitle id={sectionId('integration-lhs')}>5.3 Limb Health System (LHS)</DocSubSubTitle>
         <p>Final damage and status effects are applied to limb attributes via GAS using the populated context.</p>
         
-        <DocSubSubTitle id={sectionId('integration-weapon')} title="5.4 External Weapon System"/>
+        <DocSubSubTitle id={sectionId('integration-weapon')}>5.4 External Weapon System</DocSubSubTitle>
         <p>Selects the appropriate <CodeBlock inline>UProjectileArchetypeDataAsset</CodeBlock> and spawns or traces with the configured parameters.</p>
       </CollapsibleSection>
 

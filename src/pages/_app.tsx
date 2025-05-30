@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import Header from '@/components/Header';
+import { Header } from '@/components/Header'; // Changed to named import
 import Footer from '@/components/Footer';
 import Modal from '@/components/ui/Modal';
 import LandingPage from '@/components/LandingPage';

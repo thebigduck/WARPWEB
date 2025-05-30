@@ -72,6 +72,12 @@ interface BaseDocTitleProps {
     className?: string;
 }
 
+export const StaticDocMainTitle: React.FC<BaseDocTitleProps> = ({id, children, className=""}) => (
+    <Typography variant="h4" component="h1" id={id} className={`font-['Chypre',_Inter,_sans-serif] font-bold text-[#74C69D] ${className}`}>
+        {children}
+    </Typography>
+);
+
 interface InteractiveDocTitleProps extends BaseDocTitleProps {
     onClick: () => void; 
     isExpanded: boolean; 
