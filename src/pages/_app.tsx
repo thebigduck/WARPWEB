@@ -1,28 +1,35 @@
-import '@/styles/globals.css';
+import React, { useState, useEffect, useRef, useMemo } from 'react'; // Added useMemo
 import type { AppProps } from 'next/app';
-import React, { useState, useEffect, useRef } from 'react';
+import Head from 'next/head';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
-// Import components
-import { Header } from '@/components/Header'; 
-import { Footer } from '@/components/Footer'; 
-import { Modal } from '@/components/ui'; // Corrected import path
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Modal from '@/components/ui/Modal';
+import LandingPage from '@/components/LandingPage';
+import DocumentationPage from '@/components/DocumentationPage';
+import '@/styles/globals.css';
 
-interface NavItem {
-  id: string;
-  title: string;
-  isPageLink?: boolean;
-  isPrimaryCta?: boolean;
-  scrollToId?: string;
-}
+const theme = createTheme({
+  // palette: {
+  //   mode: 'dark', 
+  //   primary: { main: '#74C69D' }, 
+  //   background: { default: '#081C15' }, 
+  // },
+  // typography: {
+  //   fontFamily: ['Chypre', 'Inter', 'Roboto', 'sans-serif'].join(','),
+  // },
+});
 
-const LANDING_PAGE_INTERNAL_SECTIONS = [
-  'hero', 'key-benefits', 'features', 'testimonials', 'synergistic-systems', 'faq', 'cta'
-];
+const NotFoundPage: React.FC = () => <div>Page not found</div>;
+NotFoundPage.displayName = 'NotFoundPage';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+// Removed Component, pageProps from MyAppProps as they are not used in this SPA-like setup
+export default function MyApp({}: Omit<AppProps, 'Component' | 'pageProps'>) { 
   const [currentPage, setCurrentPage] = useState('landing');
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-  const headerOffset = 80; 
+  const headerOffset = 80;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -38,27 +45,38 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     setIsModalOpen(false);
   };
 
+  // Moved landingPageInternalSections inside useEffect or use useMemo
+  const landingPageInternalSections = useMemo(() => [
+    'hero', 'key-benefits', 'features', 'testimonials', 'synergistic-systems', 'faq', 'cta'
+  ], []);
+
+  const navigationLinks = useMemo(() => [
+    { id: 'documentation', title: 'Documentation', isPageLink: true },
+    { id: 'cta-header', title: 'Get Plugins', isPrimaryCta: true, scrollToId: 'cta' }
+  ], []);
+
   useEffect(() => {
     if (currentPage === 'landing') {
-      LANDING_PAGE_INTERNAL_SECTIONS.forEach(id => {
-        sectionRefs.current[id] = document.getElementById(id);
+      landingPageInternalSections.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) sectionRefs.current[id] = element;
       });
     }
-  }, [currentPage]);
+  }, [currentPage, landingPageInternalSections]);
 
-  const handleNavClick = (navItem: NavItem) => {
+  const handleNavClick = (navItem: { id: string; isPageLink?: boolean; scrollToId?: string }) => {
     if (navItem.isPageLink && navItem.id === 'documentation') {
       setCurrentPage('documentation');
       if (typeof window !== 'undefined') window.scrollTo(0, 0);
     } else if (navItem.scrollToId) {
-        if (currentPage !== 'landing') {
-            setCurrentPage('landing');
-            setTimeout(() => {
-                scrollToInternalSection(navItem.scrollToId as string);
-            }, 100); 
-        } else {
-            scrollToInternalSection(navItem.scrollToId as string);
-        }
+      if (currentPage !== 'landing') {
+        setCurrentPage('landing');
+        setTimeout(() => {
+          scrollToInternalSection(navItem.scrollToId as string);
+        }, 100); 
+      } else {
+        scrollToInternalSection(navItem.scrollToId as string);
+      }
     }
   };
 
@@ -71,28 +89,58 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  const extendedPageProps = {
-    ...pageProps,
+  const commonPageProps = {
     setCurrentPage,
-    scrollToInternalSection,
     showModal,
-    headerOffset,
-    currentPage
   };
 
+  const landingPageProps = {
+    ...commonPageProps,
+    scrollToInternalSection,
+  };
+
+  const docPageProps = {
+    ...commonPageProps,
+    headerOffset,
+  };
+  
+  const headerProps = {
+      ...commonPageProps,
+      scrollToInternalSection,
+      navigationLinks,
+      handleNavClick,
+      currentPage,
+  }
+
   return (
-    <div className="bg-deep-space-blue text-starlight-blue min-h-screen font-chypre antialiased selection:bg-cyber-teal selection:text-deep-space-blue">
-      <Header 
-        currentPage={currentPage} 
-        handleNavClick={handleNavClick} 
-        scrollToInternalSection={scrollToInternalSection} 
-        setCurrentPage={setCurrentPage} 
-      />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
-        <Component {...extendedPageProps} />
-      </main>
-      <Footer />
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle} message={modalMessage} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Head>
+        <title>UE FPS Systems</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      
+      <style jsx global>{`
+        section[id] { scroll-margin-top: ${headerOffset}px !important; }
+        .documentation-page-content section[id], 
+        .documentation-page-content h1[id], 
+        .documentation-page-content h2[id], 
+        .documentation-page-content h3[id], 
+        .documentation-page-content h4[id] { 
+            scroll-margin-top: ${headerOffset + 20}px !important;
+        }
+      `}</style>
+
+      <div className="bg-[#081C15] text-[#D8F3DC] min-h-screen font-chypre antialiased selection:bg-[#74C69D] selection:text-[#081C15]">
+        <Header {...headerProps} />
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8">
+          { currentPage === 'landing' && <LandingPage {...landingPageProps} /> }
+          { currentPage === 'documentation' && <DocumentationPage {...docPageProps} /> }
+          { currentPage !== 'landing' && currentPage !== 'documentation' && <NotFoundPage /> }
+        </main>
+        <Footer />
+        <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle} message={modalMessage} />
+      </div>
+    </ThemeProvider>
   );
 }

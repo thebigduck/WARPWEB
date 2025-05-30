@@ -1,12 +1,26 @@
 import React from 'react';
+import {
+  Box,
+  Container,
+  Typography
+} from '@mui/material';
 
-export const Footer: React.FC = () => {
+const Footer: React.FC = () => {
   return (
-    <footer className="bg-shadow-slate border-t border-comet-grey/50 mt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center text-starlight-blue/70">
-        <p>&copy; {new Date().getFullYear()} Unreal FPS Systems. All rights reserved.</p>
-        <p className="text-sm mt-1">Advanced Gameplay Solutions for Unreal Engine.</p>
-      </div>
-    </footer>
+    <Box 
+      component="footer" 
+      className="bg-[#1B4332] border-t border-[#2D6A4F]/50 mt-16" // Tailwind classes from refactor.tsx
+    >
+      <Container maxWidth="lg" className="py-10 text-center text-[#D8F3DC]/70"> {/* Tailwind classes */}
+        <Typography variant="body2" component="p">
+          &copy; {new Date().getFullYear()} Unreal FPS Systems. All rights reserved.
+        </Typography>
+        <Typography variant="caption" component="p" className="text-sm mt-1">
+          Advanced Gameplay Solutions for Unreal Engine.
+        </Typography>
+      </Container>
+    </Box>
   );
 };
+
+export default Footer;

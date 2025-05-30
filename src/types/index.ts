@@ -1,23 +1,30 @@
-export interface DocSection {
-    id: string;
-    title: string;
-    level: 1 | 2 | 3 | 4; 
-    parent?: string; 
-    subSectionOf?: string; // ID of the H2 parent if this is an H3, or H1 parent if H2
-  }
-  
-  export interface DocArticleMeta {
-      id: string; 
-      title: string; 
-      component: React.FC<DocumentationArticleProps>; 
-      parentId: string; 
-      sections: Array<{id: string; title: string; level: 2}>; 
-  }
-  
-  export interface DocumentationArticleProps {
-    parentId: string; // Added parentId
-    expandedSections: Record<string, boolean>;
-    toggleExpansion: (sectionId: string) => void;
-    // Optional: Pass a function to get unique IDs if needed within deeply nested components
-    getSectionId?: (articleParentId: string, baseId: string) => string;
-  }
+// This file can be used to define shared TypeScript types across your application.
+
+// Example: Props for individual documentation article components
+export interface DocumentationArticleProps {
+  parentId: string; // ID of the main article, e.g., 'dev-guide-main'
+  expandedSections: Record<string, boolean>;
+  toggleExpansion: (sectionId: string) => void;
+  getSectionId: (articleParentId: string, baseId: string) => string; // Make mandatory
+}
+
+// You can add other shared types here, for example:
+// export interface NavItem {
+//   id: string;
+//   title: string;
+//   isPageLink?: boolean;
+//   isPrimaryCta?: boolean;
+//   scrollToId?: string;
+// }
+
+// Type for the items in DOC_SECTIONS_DATA in DocumentationPage.tsx
+// (This is also defined locally in DocumentationPage.tsx, kept here for reference or potential shared use)
+export interface DocSectionDataEntry {
+  id: string;
+  title: string;
+  level: 1 | 2 | 3 | 4;
+  component?: string; 
+  isArticle?: boolean; 
+  parentGroup: string; 
+  subSectionOf?: string; 
+}

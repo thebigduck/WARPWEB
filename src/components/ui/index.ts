@@ -1,12 +1,2 @@
-export { default as CodeBlock } from './CodeBlock';
-export { default as ListItem } from './ListItem';
-export { default as SubListItem } from './SubListItem';
-export { default as SectionTitle } from './SectionTitle';
-export { default as DocMainTitle } from './DocMainTitle';
-export { default as DocSubTitle } from './DocSubTitle';
-export { default as DocSubSubTitle } from './DocSubSubTitle';
-export { default as DocSubSubSubTitle } from './DocSubSubSubTitle';
-export { default as BenefitCard } from './BenefitCard';
-export { default as TestimonialCard } from './TestimonialCard';
-export { default as FAQItem } from './FAQItem';
 export { default as Modal } from './Modal';
+export * from './DocComponents'; // Export all named exports from DocComponents

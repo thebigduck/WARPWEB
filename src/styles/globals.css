@@ -2,81 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Chypre', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background-color: #081C15;
-  color: #D8F3DC;
+  background-color: #081C15; /* deep-space-blue */
+  color: #D8F3DC; /* starlight-blue */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #1B4332; }
-::-webkit-scrollbar-thumb { background: #74C69D; border-radius: 10px; border: 2px solid #1B4332; }
-::-webkit-scrollbar-thumb:hover { background: #95D5B2; }
 
-/* section[id] { scroll-margin-top: 80px; } */ 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
+::-webkit-scrollbar-track {
+  background: #1B4332; /* shadow-slate */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #74C69D; /* cyber-teal */
+  border-radius: 10px;
+  border: 2px solid #1B4332; /* shadow-slate for border */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #95D5B2; /* nebula-aqua */
+}
+
+/* Styles for .doc-article from refactor.tsx (static parts) */
 .doc-article ol {
-    list-style-type: decimal;
-    padding-left: 1.5rem;
+  list-style-type: decimal;
+  padding-left: 1.5rem; 
 }
-.doc-article ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
+.doc-article ul { 
+  list-style-type: disc;
+  padding-left: 1.5rem;
 }
-.doc-article ul.list-none, .doc-article ol.list-none {
-    list-style-type: none;
-    padding-left: 0;
+.doc-article ul.list-none, .doc-article ol.list-none { 
+  list-style-type: none;
+  padding-left: 0;
 }
-.doc-article ol > li::marker {
-    color: #74C69D;
-    font-weight: 500;
-}
-.doc-article ul > li, .doc-article ol > li {
-    margin-bottom: 0.65rem;
-}
-.doc-article ul ul > li, .doc-article ol ol > li {
-    margin-bottom: 0.4rem;
-}
-
-.doc-article table ul {
-    list-style-type: none;
-    padding-left: 0;
-}
- .doc-article table ul li {
-    padding-left: 0;
-}
-.doc-article table ul ul {
-     padding-left: 1rem;
-}
-.doc-article table .ListItem > svg, .doc-article table .SubListItem > svg {
-    margin-top: 0.125rem;
-}
-.doc-article table .ListItem > span, .doc-article table .SubListItem > span {
-    display: inline;
-}
- .doc-article table code {
-    white-space: normal;
-}
-
-@font-face {
-  font-family: 'Chypre';
-  src: url('/fonts/Chypre-Regular.otf') format('opentype');
-  font-weight: normal; /* 400 */
-}
-@font-face {
-  font-family: 'Chypre';
-  src: url('/fonts/Chypre-Medium.otf') format('opentype');
+.doc-article ol > li::marker { 
+  color: #74C69D; /* cyber-teal */
   font-weight: 500;
 }
-@font-face {
-  font-family: 'Chypre';
-  src: url('/fonts/Chypre-Bold.otf') format('opentype');
-  font-weight: bold; /* 700 */
+.doc-article ul > li, .doc-article ol > li {
+  margin-bottom: 0.65rem;
 }
-@font-face {
-  font-family: 'Chypre';
-  src: url('/fonts/Chypre-Light.otf') format('opentype');
-  font-weight: 300;
+.doc-article ul ul > li, .doc-article ol ol > li {
+  margin-bottom: 0.4rem;
+}
+.doc-article table ul {
+  list-style-type: none; 
+  padding-left: 0;
+}
+.doc-article table ul li {
+  padding-left: 0; 
+}
+.doc-article table ul ul {
+  padding-left: 1rem; 
+}
+.doc-article table .ListItem > svg, .doc-article table .SubListItem > svg {
+  margin-top: 0.125rem; 
+}
+.doc-article table .ListItem > span, .doc-article table .SubListItem > span {
+  display: inline; 
+}
+.doc-article table code { 
+  white-space: normal; 
 }
